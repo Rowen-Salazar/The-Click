@@ -1,0 +1,17 @@
+<p style="text-align: center;">View of Map</p>
+
+<h1>{{ mapview.name }}</h1>
+<br>
+{% if mapview.map_image %}
+<img src="{{ mapview.map_image.url }}">
+{% endif %}
+
+<br>
+
+<ul>
+{% for choice in mapview.choice_set.all %}
+    <li>{{ choice.choice_text }}</li>
+{% endfor %}
+</ul>
+
+<p style="text-align: center;">&nbsp;</p>
