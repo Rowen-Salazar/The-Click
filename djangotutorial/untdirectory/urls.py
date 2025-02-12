@@ -25,5 +25,5 @@ urlpatterns = [
     path('', home),
     path('about/', about),
     path('mapview/', mapview),
-    # path('directory/', include("directory.urls")),
+    path('buildingview/', buildingview),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
