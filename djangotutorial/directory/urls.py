@@ -4,7 +4,7 @@ from . import views
 
 app_name = "directory"
 urlpatterns = [
-    path("", views.home, name="home"),
+    path("mapview/", views.home, name="home"),
     #/mapview/untmap
-    path("<str:map_name>/", views.mapview, name="mapview"),
+    path("mapview/<str:map_name>/", views.mapview, name="mapview"),
 ]
