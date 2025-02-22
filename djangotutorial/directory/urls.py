@@ -10,6 +10,7 @@ urlpatterns = [
     #path("<str:map_name>/", views.mapview, name="mapview"),
     path("discoverypark/<str:map_name>/", views.discoverypark, name="discoverypark"),
     path("untmaincampus/<str:map_name>/", views.untmaincampus, name="untmaincampus"),
+    path("buildings/", views.buildings, name="buildings"),
 ]
 
 if settings.DEBUG:

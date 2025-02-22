@@ -6,8 +6,8 @@ from directory.models import Map
 def home(request):
     return render(request, 'home.html')
 
-def about(request):
-    return render(request, 'about.html')
+#def about(request):
+#    return render(request, 'about.html')
 
 #def mapview(request):
 #    maps = Map.objects.all()
