@@ -7,4 +7,5 @@ urlpatterns = [
     path("mapview/", views.home, name="home"),
     #/mapview/untmap
     path("mapview/<str:map_name>/", views.mapview, name="mapview"),
+    path("buildingview/", views.buildingview, name="buildingview"),
 ]
