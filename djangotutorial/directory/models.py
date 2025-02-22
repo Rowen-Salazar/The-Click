@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 
 class Map(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, unique=True)
     map_color = models.CharField('Map Color', max_length=6, default="000000")
     #Placeholder for Google API Integration
     map_image = models.ImageField(null=True, blank=True, upload_to="images/")

@@ -1,0 +1,19 @@
+<p style="text-align: center;">View of Map</p>
+
+<h1>{{ dpcampusview.name }}</h1>
+<br>
+{% if dpcampusview.map_image %}
+    <img src="{{ dpcampusview.map_image.url }}">
+{% else %}
+    <p>No image</p>
+{% endif %}
+<br>
+
+
+<ul>
+{% for choice in dpcampusview.choice_set.all %}
+    <li>{{ choice.choice_text }}</li>
+{% endfor %}
+</ul>
+
+<p style="text-align: center;">&nbsp;</p>

@@ -24,6 +24,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home),
     path('about/', about),
-    path('mapview/', mapview),
-    path('buildingview/', buildingview),
+    #path('mapview/', mapview),
+    path('untmaincampus/', untmaincampus),
+    path('discoverypark/', discoverypark),
+    #path('buildingview/', buildingview),
+    path('buildings/', buildings),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
