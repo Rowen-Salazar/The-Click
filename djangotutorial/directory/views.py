@@ -1,29 +1,22 @@
 
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from directory.models import Map
-from django.views.generic import ListView
-from .models import *
+from django.conf import settings
 #from django.http import HttpResponse
 
 def home(request):
-    return render(request, 'home.html')
+    map_list = Map.objects.all()
+    return render(request, 'home.html', {'map_list': map_list})
 
-class HomeView(ListView):
-    template_name = "directory/templates/home.html"
-    context_object = 'my_data'
-    model = Locations
-    success_url = "/"
+#def about(request):
+#    return render(request, 'about.html')
 
-
-def about(request):
-    return render(request, 'about.html')
-    
-#def mapview(request, maps):
-    #maps = Map.objects.all()
-    #return render(request, 'mapview.html', {'mapview/':maps})
-
-def mapview(request):
-    return render(request, 'mapview.html')
+def mapview(request, map_name):
+    full_map = get_object_or_404(Map, name=map_name)
+    return render(request, 'mapview.html', {'full_map': full_map})
 
 def buildingview(request):
     return render(request, 'buildingview.html')
+
+def my_view(request):
+    return render(request, 'home.html', {'MEDIA_URL': settings.MEDIA_URL})
