@@ -104,6 +104,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
+#api key
+GOOGLE_API_KEY = 'AIzaSyCWl8uFZQTCMxBy8MNe8YaPDlelX6No4LI'
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'EST'
