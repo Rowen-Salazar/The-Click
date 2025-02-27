@@ -8,4 +8,5 @@ urlpatterns = [
     #/mapview/untmap
     path("mapview/<str:map_name>/", views.mapview, name="mapview"),
     path("buildingview/", views.buildingview, name="buildingview"),
+
 ]
