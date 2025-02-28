@@ -9,8 +9,8 @@
 <br>
 
 <ul>
-{% for choice in full_map.choice_set.all %}
-    <li>{{ choice.choice_text }}</li>
+{% for choice in all_filters %}
+    <li>{{ choice.display_name }}</li>
 {% endfor %}
 </ul>
 
