@@ -37,5 +37,11 @@ class Building(models.Model):
     floors = models.IntegerField(blank=False, default=1)
     floor_plan = models.ImageField(null=True, blank=True, upload_to="images/")
     on_map = models.ForeignKey(Map, on_delete=models.CASCADE)
+    
+    #for sidebar
+    #address = models.CharField(max_length=225)
+    #image = models.ImageField(upload_to='images/buildingSearchBox/')
+    #slug = models.SlugField(unique=True)
+    
     def __str__(self):
         return self.display_name

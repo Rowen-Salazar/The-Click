@@ -1,0 +1,396 @@
+{% load static %}
+
+<style>
+    /* Floating Sidebar */
+    .floating-sidebar {
+        position: absolute;
+        top: 19%;
+        right: 3%;
+        width: 220px;
+        height: 71vh; /* ensures it doesn’t cover the whole page */
+        
+        background-color: rgb(160 166 128 / 0.9); /* slight transparency */
+        color: #A0A680;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        z-index: 1;
+    }
+
+    .sidebar-search-container {
+        position: sticky;
+        top: 0;
+        background: rgb(160 166 128 / 0); /* transparent background */
+        z-index: 1000; /* ensures it stays above other content */
+        padding-bottom: 10px;
+    }
+
+    .sidebar-search-box {
+        width: 177px;
+        margin-bottom: 40px;
+        padding: 10px;
+        padding-left: 35px;
+        border-radius: 14px;
+        border: none;
+        outline: none;
+        background: rgb(14 72 9 / 0.9);
+        box-shadow: 6px 6px 10px 1px rgba(0, 0, 0, 0.3) inset;
+        color: white;
+        font-display: swap;
+        font-family: "Roboto Mono", serif;
+        font-size: 12px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .sidebar-search-box-img {
+        position: absolute; 
+        left: 10px; 
+        top: 21%; 
+        transform: translateY(-50%); 
+        width: 22px; 
+        height: 16px;
+        z-index: 3;
+    }
+
+    /* Ensures buildings in scrollbox are not seen under search bar */
+    .sidebar-building-container {
+        position: absolute;
+        top: 20%;
+        right: 0px;
+        width: 220px;
+        max-height: 58vh; 
+        background-color: transparent;
+        padding-top: 4px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 20px;
+        border-radius: 12px;
+        overflow-y: auto;
+        z-index: 1;
+    }
+
+    .sidebar-building-box {
+        background: #D2D4C4;
+        height: 65px;
+        padding: 10px;
+        margin-top: 10px;
+        margin-bottom: 23px;
+        border-radius: 10px;
+        transition: 0.3s;
+        cursor: pointer;
+        font-display: swap;
+        font-family: "Roboto Mono", serif;
+        display: flex;
+        align-items: center;  /* centers text vertically */
+        justify-content: flex-start; /* aligns items to the left */
+        position: relative;
+        gap: 15px; /* adds spacing between image and text */
+        z-index: 1;
+    }
+
+    .sidebar-building-box:hover {
+        background: #bfc2ae;
+    }
+
+    .sidebar-building-box a {
+        color: black;
+        text-decoration: none;
+        /*display: block;*/
+        flex-direction: column;  /* stacks text elements vertically */
+        justify-content: space-between; /* ensures text is spread (top and bottom) */
+        display: flex;
+        height: 60px;
+        flex-grow: 1; /* allows text container to fill space */
+        align-items: left;
+        margin-left: 71px;
+    }
+
+    .sidebar-building-title {
+        font-size: 11px;
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .sidebar-building-address {
+        font-size: 10px;
+        color: #333;
+        display: flex;
+        align-items: flex-end; /* prevents movement */
+    }
+
+    .sidebar-building-image {
+        top: 50%;
+        left: 10px; 
+        position: absolute;
+        transform: translateY(-50%);
+        width: 60px; 
+        height: 60px;
+        /*flex-shrink: 0;*/
+        object-fit: cover;  /* ensures the image fits within container */
+        border: 2px solid #0E4809;
+        z-index: 2;
+    }
+
+    /* Just for styling the background
+    body {
+        /*background: url('your-map-background.jpg') no-repeat center center fixed;
+        background-size: cover;
+        padding: 20px;
+    }
+    */
+
+    .content {
+        color: black;
+        text-align: center;
+        margin-top: 50px;
+        font-size: 24px;
+    }
+</style>
+
+<!-- div class=content -->
+
+<!-- replace div with aside - accessibility -->
+<div class="floating-sidebar">
+    <div class="sidebar-search-container">    
+        <!-- <div style="position: relative; width: 220px;"> -->
+            <!-- <img src="{% static 'images/search.png' %}" alt="Search"> -->
+            <img src="/media/images/buildingSearchBox/search_icon.png" alt="Search" class="sidebar-search-box-img">
+            <input type="text" id="searchInput" class="sidebar-search-box" placeholder="" >
+        <!-- </div> -->
+    </div>    
+        
+    <div class="sidebar-building-container" id="buildingList">
+
+        <!-- {% for building in buildings %}
+        <div class="sidebar-building-box" id="buildingBox">
+            <div class="sidebar-building-content">
+                <a data-name="{{ building.name }}" data-url="buildingview">{{ building.name }}<br><br>{{ building.address }}</a>
+                <img src="{{ building.image.url }}" alt="{{ building.name }}" class="sidebar-building-image">
+            </div>
+        </div>
+        {% endfor %} -->
+
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Art Annex ARTF" data-url="buildingview">
+                <span class="sidebar-building-title">Art Annex</span>
+                <span class="sidebar-building-address">1001 W. Mulberry St.</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/artannex.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Art Building ART" data-url="buildingview">
+                <span class="sidebar-building-title">Art Building</span>
+                <span class="sidebar-building-address">1201 W Mulberry St</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/art.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Audiorium English Building AUDB" data-url="buildingview">
+                <span class="sidebar-building-title">Auditorium-English Building</span>
+                <span class="sidebar-building-address">1401 W. Hickory St.</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/auditorium.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Business Leadership Building BLB" data-url="buildingview">
+                <span class="sidebar-building-title">Business Leadership Building</span>
+                <span class="sidebar-building-address">1307 W. Highland St.</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/blb.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Chemistry Building CHEM" data-url="buildingview">
+                <span class="sidebar-building-title">Chemistry Building</span>
+                <span class="sidebar-building-address">1508 W. Mulberry St.</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/chem.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Chilton Hall CHIL" data-url="buildingview">
+                <span class="sidebar-building-title">Chilton Hall</span>
+                <span class="sidebar-building-address">410 S. Avenue C</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/chilton.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Coliseum COL" data-url="buildingview">
+                <span class="sidebar-building-title">Coliseum</span>
+                <span class="sidebar-building-address">601 North Texas Blvd.</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/coliseum.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Dance and Theater DATH" data-url="buildingview">
+                <span class="sidebar-building-title">Dance and Theater</span>
+                <span class="sidebar-building-address">300 Bernard St.</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/danceandtheater.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Discovery Park DP NTDP" data-url="buildingview">
+                <span class="sidebar-building-title">Discovery Park</span>
+                <span class="sidebar-building-address">3940 N. Elm St.</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/dp.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Environmental Science Building ENV" data-url="buildingview">
+                <span class="sidebar-building-title">Environmental Science Building</span>
+                <span class="sidebar-building-address">1704 W. Mulberry St.</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/envsci.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Gateway Center GATE" data-url="buildingview">
+                <span class="sidebar-building-title">Gateway Center</span>
+                <span class="sidebar-building-address">801 North Texas Blvd.</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/gateway.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="General Academic Building GAB" data-url="buildingview">
+                <span class="sidebar-building-title">General Academic Building</span>
+                <span class="sidebar-building-address">225 E Mulberry St</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/gab.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Hickory Hall HKRY" data-url="buildingview">
+                <span class="sidebar-building-title">Hickory Hall</span>
+                <span class="sidebar-building-address">1417 W. Hickory St.</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/hickory.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Language Building LANG" data-url="buildingview">
+                <span class="sidebar-building-title">Language Building</span>
+                <span class="sidebar-building-address">108 Avenue A</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/lang.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Life Sciences Complex LIFE" data-url="buildingview">
+                <span class="sidebar-building-title">Life Sciences Complex</span>
+                <span class="sidebar-building-address">1511 W. Sycamore St.</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/lifescience.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Music Annex Building MUSA" data-url="buildingview">
+                <span class="sidebar-building-title">Music Annex Building</span>
+                <span class="sidebar-building-address">1630 W. Highland St.</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/musicannex.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Music Building MUSI" data-url="buildingview">
+                <span class="sidebar-building-title">Music Building</span>
+                <span class="sidebar-building-address">415 S. Avenue C</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/music.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Physical Education Building PEB" data-url="buildingview">
+                <span class="sidebar-building-title">Physical Education Building</span>
+                <span class="sidebar-building-address">1921 Chestnut St.</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/physed.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Physics Building PHYS" data-url="buildingview">
+                <span class="sidebar-building-title">Physics Building</span>
+                <span class="sidebar-building-address">210 Avenue A</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/physics.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Pohl Recreation Rec Center RECS" data-url="buildingview">
+                <span class="sidebar-building-title">Pohl Recreation Center</span>
+                <span class="sidebar-building-address">900 Chestnut St</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/pohl.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Radio TV Film and Performing Arts RTFP" data-url="buildingview">
+                <span class="sidebar-building-title">Radio, TV, Film & Performing Arts</span>
+                <span class="sidebar-building-address">1179 Union Circle</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/rtfp.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Sage Hall SAGE" data-url="buildingview">
+                <span class="sidebar-building-title">Sage Hall</span>
+                <span class="sidebar-building-address">1167 Union Circle</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/sage.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Science Research Building SRB" data-url="buildingview">
+                <span class="sidebar-building-title">Science Research Building</span>
+                <span class="sidebar-building-address">1504 W. Mulberry St.</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/scienceresearch.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Sycamore Hall SYMR" data-url="buildingview">
+                <span class="sidebar-building-title">Sycamore Hall</span>
+                <span class="sidebar-building-address">307 S. Avenue B</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/sycamore.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Terrill Hall TH" data-url="buildingview">
+                <span class="sidebar-building-title">Terrill Hall</span>
+                <span class="sidebar-building-address">1611 W. Mulberry St.</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/terrill.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="University Union UU" data-url="buildingview">
+                <span class="sidebar-building-title">University Union</span>
+                <span class="sidebar-building-address">1155 Union Cir</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/union.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Willis Library LIBR" data-url="buildingview">
+                <span class="sidebar-building-title">Willis Library</span>
+                <span class="sidebar-building-address">1506 W Highland St</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/willis.png" alt="Search" class="sidebar-building-image">
+        </div>
+        <div class="sidebar-building-box" id="buildingBox">
+            <a data-name="Wooten Hall WH" data-url="buildingview">
+                <span class="sidebar-building-title">Wooten Hall</span>
+                <span class="sidebar-building-address">1121 Union Circle</span>
+            </a>
+            <img src="/media/images/buildingSearchBox/wooten.png" alt="Search" class="sidebar-building-image">
+        </div>
+    </div>
+</div>
+
+<script>
+    
+    document.querySelectorAll(".sidebar-building-box").forEach(box => {
+        box.addEventListener("click", function() {
+            let buildingURL = this.querySelector("a").dataset.url;
+            let formattedURL = buildingURL.toLowerCase().replace(/\s+/g, "-"); // Also change data-name in each building box
+            window.location.href = `http://127.0.0.1:8000/${formattedURL}/`; // Change URL to http://127.0.0.1:8000/buildingview/${formattedName}/ when we make building pages
+        });
+    });
+    
+    document.getElementById("searchInput").addEventListener("input", function() {
+        let filter = this.value.toLowerCase();
+        let buildings = document.querySelectorAll("#buildingList .sidebar-building-box");
+
+        buildings.forEach(box => {
+            let name = box.querySelector("a").dataset.name.toLowerCase();
+            if (name.includes(filter)) {
+                box.style.display = "block";
+            } else {
+                box.style.display = "none";
+            }
+        });
+    });
+</script>
