@@ -4,83 +4,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UNT Navbar</title>
+    <title>Home Page</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">    <style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">    
+    <style>
+        * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Volkhov";
+        }
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
+        min-height: 100vh;
+        background: radial-gradient(#708A70 26%, #446742 51%, #093705 92%);
         }
-        .navbar {
-            background: #D2D4C4;
-            color: #043D18;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-        }
-        .logo {
-            font-size: 28px;
-            font-family: "Volkhov", serif;
-            font-weight: 700;
-            color: #00663F;
-            /*-webkit-text-stroke-color: 10px #0E4809;*/
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-            align-items: center;
-            display: flex;
-            font-weight: bold;
-        }
-        .untlogo {
-            height: 60px;
-            width: auto;
-        }
-        .logo span {
-            font-weight: normal;
-        }
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 90px;
-            font-family: "Volkhov", serif;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-            font-size: 18px;
-            color: #0E4809;
-            cursor: pointer;
-        }
-        .dropdown {
-            cursor: pointer;
-        }
-        .search-box {
-            background: #043D18;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: "Roboto Mono", serif;
-        }
-        .search {
-            height: 18px;
-            width: auto;
-            margin-right: 10px;
-            align-items: center;
-            /*display: flex;*/
+        .page {
+        width: 378px;
+        height: 360px;
+        flex-shrink: 0;
         }
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <div class="logo"><img src="{{ MEDIA_URL }}media/images/navBarMedia/untLogo.png" class="untlogo"> <span>MAP DIRECTORY</span></div>
-        <div class="nav-links">
-            <span class="dropdown">Select Campus ▾</span>
-            <span>Buildings</span>
-            <span class="search-box"><img src="{{ MEDIA_URL }}media/images/navBarMedia/search.png" class="search">SEARCH</span>
-        </div>
-    </div>
+
+    {% include "navbar.html" %}
+
+    <page class="page">
+        <a href="maincampuspiclink" class="maincampuspicmap">
+            <img src="Maincampusbubble.png" alt="UNT Main Campus" >
+            <div class="mainpictext">Main Campus</div></a>
+        <a href="dppiclink" class="dppiclink">
+            <img src="DiscoveryParkbubble.png" alt="UNT Discovery Park" >
+            <div class="dppictext">Discovery Park</div></a>
+        <a href="buildingspiclink" class="buildingspic">
+            <img src="Buildingsbubble.png" alt="UNT Buildings" >
+            <div class="buildingstext">Buildings</div></a>
+    </page>
 </body>
 </html>
-
-
 
 <p style="text-align: center;">Home Page</p>
 </br>
