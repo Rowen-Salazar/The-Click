@@ -36,7 +36,8 @@ class Location(models.Model):
     zipcode = models.CharField(max_length=200,blank=True, null=True)
     city = models.CharField(max_length=200,blank=True, null=True)
     adress = models.CharField(max_length=200,blank=True, null=True)
-    coordinates = models.CharField(max_length=1000, blank=True)
+    latitude = models.CharField(max_length=1000, blank=True)
+    longitude = models.CharField(max_length=1000, blank=True)
     filter_category = models.CharField(max_length=1000, blank=True)
     def __str__(self):
         return self.name
