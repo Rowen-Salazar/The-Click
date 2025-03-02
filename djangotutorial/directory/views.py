@@ -35,3 +35,4 @@ def buildingview(request, building_name):
 
 def my_view(request):
     return render(request, 'home.html', {'MEDIA_URL': settings.MEDIA_URL})
+
