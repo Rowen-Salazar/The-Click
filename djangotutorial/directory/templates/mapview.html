@@ -1,17 +1,100 @@
-<p style="text-align: center;">View of Map</p>
+<!DOCTYPE html>
+<div class="pageholder">
+    <div class="titleholder"> Google Maps API Display</div>
+</div>
 
-<h1>{{ full_map.display_name }}</h1>
-<br>
-{% if full_map.map_image %}
-<img src="{{ full_map.map_image.url }}">
-{% endif %}
 
-<br>
+ <!--                              <!--*stuff in progress - josh*
+<style>
+    #map{
+        height: 600px;
+        width: 1000px;
+    }
+</style>
+
+<<div id="map"></div>
+
+<script id="location_data" type="application/json">
+    {% for currLoc in all_locations %}
+        { "name": "{{ currLoc.name }}", lat: {{ currLoc.latitude }}, lng: {{ currLoc.longitude }} },
+    {% endfor %}
+</script>
 
 <ul>
-{% for choice in all_filters %}
-    <li>{{ choice.display_name }}</li>
-{% endfor %}
+    {% for currLoc in all_locations %}
+        <li data-latitude="{{ currLoc.latitude }}"
+            data-longitude="{{ currLoc.longitude }}"
+            data-name="{{ currLoc.name }}">
+        </li>
+    {% endfor %}
 </ul>
 
-<p style="text-align: center;">&nbsp;</p>
+<div id="location_details"></div>
+
+<script>
+    function initMap(){
+        const map = new google.maps.Map(document.getElementById("map"), {
+            center: {lat: 33.21099225203791, lng: -97.14775843454004},
+            zoom: 17,
+        });
+        
+        let locationData = document.querySelectorAll('li');
+        let container = document.getElementById('location_details')
+        locationData.forEach(location=> {
+            addDetails(container, location);
+        });
+
+        function addDetails(container, currLoc) {
+            let data = currLoc.dataset
+            addMarkers(data)
+        }
+
+        function addMarkers(currLoc) {
+            const marker = new AdvancedMarkerElement({
+                map,
+                position: { lat: currLoc.latitude, lng: currLoc.longitude },
+                title: currLoc.name,
+            })
+        }
+        
+    }
+</script>
+-->
+
+
+<!--working stuff below - josh-->
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWl8uFZQTCMxBy8MNe8YaPDlelX6No4LI&callback=initMap&v=beta&libraries=marker&loading=async"
+    defer
+    ></script>
+
+<gmp-map center="{{ full_map.center }}" zoom="{{ full_map.zoom }}" map-id="{{ full_map.map_id }}" style="height: 660px; width: 1000px">
+   
+    {% for currLoc in all_locations %}
+        <gmp-advanced-marker
+        gmp-clickable="true" 
+        position="{{ currLoc.latitude }}, {{ currLoc.longitude }}"
+        title="{{ currLoc.name }}"
+        category="{{ currLoc.filter_category }}"
+        ></gmp-advanced-marker>
+    {% endfor %}
+
+</gmp-map>
+
+<div class="container">
+    <h3>Choose Filter Option</h3>
+
+    {% for filters in all_filters %}
+    <div class="group">
+        <input type="checkbox" id="{{ filters.name }}"/>
+        <label for="{{ filters.name }}">{{ filters.name }} </label>
+    </div>
+    {% endfor %}
+</div>
+
+
+
+
+<p style="text-align: center;"><a href="http://127.0.0.1:8000/" style="color:#2761b7">Back</a></p>
+

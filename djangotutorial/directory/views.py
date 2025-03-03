@@ -2,6 +2,7 @@
 from django.shortcuts import get_object_or_404, render
 from directory.models import Map, Building, Filter, Location
 from django.conf import settings
+from django.views import View
 #from django.http import HttpResponse
 
 def home(request):
@@ -10,9 +11,11 @@ def home(request):
 
 def mapview(request, map_name):
     full_map = get_object_or_404(Map, name=map_name)
+    all_locations = Location.objects.all()
     all_filters = Filter.objects.all()
     context = {
         'full_map': full_map,
+        'all_locations': all_locations,
         'all_filters': all_filters
     }
     return render(request, 'mapview.html', context)

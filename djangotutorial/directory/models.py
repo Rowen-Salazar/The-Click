@@ -23,11 +23,9 @@ class Map(models.Model):
     map_color = models.CharField('Map Color', max_length=6, default="000000")
     #Placeholder for Google API Integration
     map_image = models.ImageField(null=True, blank=True, upload_to="images/")
-    #Google API Stuff
     zoom = models.IntegerField(blank=False, default=17)
     center = models.CharField(max_length=1000, blank=True)
     map_id = models.CharField(max_length=1000, blank=True)
-    filters = models.ManyToManyField(Filter, blank=True)
     def __str__(self):
         return self.display_name
 
@@ -45,3 +43,21 @@ class Building(models.Model):
     
     def __str__(self):
         return self.display_name
+
+class Filter(models.Model):
+    name = models.CharField('Option Name', max_length=100)
+    onmaps = models.BooleanField('Included In Map Page?')
+    onbuildings = models.BooleanField('Included In Building Page?')
+    def __str__(self):
+        return self.name
+
+class Location(models.Model):
+    name = models.CharField(max_length=500,blank=True, null=True)
+    zipcode = models.CharField(max_length=200,blank=True, null=True)
+    city = models.CharField(max_length=200,blank=True, null=True)
+    adress = models.CharField(max_length=200,blank=True, null=True)
+    latitude = models.CharField(max_length=1000, blank=True)
+    longitude = models.CharField(max_length=1000, blank=True)
+    filter_category = models.CharField(max_length=1000, blank=True)
+    def __str__(self):
+        return self.name
