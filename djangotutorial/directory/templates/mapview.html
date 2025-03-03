@@ -1,4 +1,3 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -166,3 +165,38 @@
 
 
 <!--working stuff below - josh-->
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWl8uFZQTCMxBy8MNe8YaPDlelX6No4LI&callback=initMap&v=beta&libraries=marker&loading=async"
+    defer
+></script>
+
+<gmp-map center="{{ full_map.center }}" zoom="{{ full_map.zoom }}" map-id="{{ full_map.map_id }}" style="height: 660px; width: 1000px">
+   
+    {% for currLoc in all_locations %}
+        <gmp-advanced-marker
+        gmp-clickable="true" 
+        position="{{ currLoc.latitude }}, {{ currLoc.longitude }}"
+        title="{{ currLoc.name }}"
+        category="{{ currLoc.filter_category }}"
+        ></gmp-advanced-marker>
+    {% endfor %}
+
+</gmp-map>
+
+<div class="container">
+    <h3>Choose Filter Option</h3>
+
+    {% for filters in all_filters %}
+    <div class="group">
+        <input type="checkbox" id="{{ filters.name }}"/>
+        <label for="{{ filters.name }}">{{ filters.name }} </label>
+    </div>
+    {% endfor %}
+</div>
+
+
+
+
+<p style="text-align: center;"><a href="http://127.0.0.1:8000/" style="color:#2761b7">Back</a></p>
+
