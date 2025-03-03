@@ -1,3 +1,34 @@
-<p style="text-align: center;">View of Building Specifics</p>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNT Map Directory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #708A70;
+        }
+    </style>
+</head>
+<body>
+    {% include "navbar.html" %}
 
-<p style="text-align: center;"><a href="http://127.0.0.1:8000/" style="color:#2761b7">Back</a></p>
+    <div class="content">
+        <h1>Building Page</h1>
+        <p>:)</p>
+    </div>
+    
+    {% include "buildingsidebar.html" %}
+
+    <p style="text-align: center;">View of Building Specifics</p>
+
+    <p style="text-align: center;"><a href="http://127.0.0.1:8000/" style="color:#2761b7">Back</a></p>
+
+</body>
+</html>

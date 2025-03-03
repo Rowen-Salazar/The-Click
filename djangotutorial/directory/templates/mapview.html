@@ -1,10 +1,107 @@
+{% load static %}
 <!DOCTYPE html>
-<div class="pageholder">
-    <div class="titleholder"> Google Maps API Display</div>
-</div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNT Map Directory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #708A70;
+        }
+        .googlemaps {
+            height: 475px; 
+            width: 1177px;
+            max-height: 79vh;
+            position: relative;
+            top: 17px;
+            left: 17px;
+            border: 3px solid #669631;
+            box-shadow: 0px 0px 8px 3px rgba(0, 0, 0, 0.7);
+            /* box shadow: x-offset y-offset blur spread color */
+            z-index: 0;
+        }
+
+        .container {
+            background-color: #00663F;
+            font-size: 12px;
+            color: white;
+            border-radius: 14px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.6);
+            display: block;
+            position: absolute;
+            top: 170px;
+            left: 25px;
+            padding: 0px 15px 5px 15px; /* top right bottom left */
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    {% include "navbar.html" %}
+
+    <!-- <div class="pageholder">
+        <div class="titleholder"> Google Maps API Display</div>
+    </div> -->
+
+    <!-- <div class="content">
+        <h1>Building Page</h1>
+        <p>:)</p>
+    </div> -->
+    
+    {% include "buildingsidebar.html" %}
+
+    <div class="googlemaps">
+        <gmp-map center="{{ full_map.center }}" zoom="{{ full_map.zoom }}" map-id="{{ full_map.map_id }}">
+    
+            {% for currLoc in all_locations %}
+                <gmp-advanced-marker
+                gmp-clickable="true" 
+                position="{{ currLoc.latitude }}, {{ currLoc.longitude }}"
+                title="{{ currLoc.name }}"
+                category="{{ currLoc.filter_category }}"
+                ></gmp-advanced-marker>
+            {% endfor %}
+        
+        </gmp-map>
+    </div>
+    
+    <div class="container">
+        <p style="font-size: 16px; text-align: center;">FILTERS</p>
+    
+        {% for filters in all_filters %}
+        <div class="group">
+            <input type="checkbox" id="{{ filters.name }}"/>
+            <label for="{{ filters.name }}">{{ filters.name }} </label>
+        </div>
+        {% endfor %}
+    </div>
+
+    <p style="text-align: center;"><a href="http://127.0.0.1:8000/" style="color:#2761b7">Back</a></p>
+
+</body>
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWl8uFZQTCMxBy8MNe8YaPDlelX6No4LI&callback=initMap&v=beta&libraries=marker&loading=async"
+    defer
+></script>
+
+</html>
 
 
- <!--                              <!--*stuff in progress - josh*
+
+
+ <!--                              *stuff in progress - josh*
 <style>
     #map{
         height: 600px;
@@ -63,38 +160,3 @@
 
 
 <!--working stuff below - josh-->
-
-<script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWl8uFZQTCMxBy8MNe8YaPDlelX6No4LI&callback=initMap&v=beta&libraries=marker&loading=async"
-    defer
-    ></script>
-
-<gmp-map center="{{ full_map.center }}" zoom="{{ full_map.zoom }}" map-id="{{ full_map.map_id }}" style="height: 660px; width: 1000px">
-   
-    {% for currLoc in all_locations %}
-        <gmp-advanced-marker
-        gmp-clickable="true" 
-        position="{{ currLoc.latitude }}, {{ currLoc.longitude }}"
-        title="{{ currLoc.name }}"
-        category="{{ currLoc.filter_category }}"
-        ></gmp-advanced-marker>
-    {% endfor %}
-
-</gmp-map>
-
-<div class="container">
-    <h3>Choose Filter Option</h3>
-
-    {% for filters in all_filters %}
-    <div class="group">
-        <input type="checkbox" id="{{ filters.name }}"/>
-        <label for="{{ filters.name }}">{{ filters.name }} </label>
-    </div>
-    {% endfor %}
-</div>
-
-
-
-
-<p style="text-align: center;"><a href="http://127.0.0.1:8000/" style="color:#2761b7">Back</a></p>
-
