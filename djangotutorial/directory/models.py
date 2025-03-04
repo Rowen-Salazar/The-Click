@@ -13,14 +13,12 @@ class Location(models.Model):
 class Filter(models.Model):
     name = models.CharField(max_length=100)
     display_name = models.CharField(max_length=200, blank=True)
-    locations = models.ManyToManyField(Location, blank=True)
     def __str__(self):
         return self.name
     
 class Map(models.Model):
     name = models.CharField(max_length=50)
     display_name = models.CharField(max_length=200, blank=True)
-    map_color = models.CharField('Map Color', max_length=6, default="000000")
     #Placeholder for Google API Integration
     map_image = models.ImageField(null=True, blank=True, upload_to="images/")
     zoom = models.IntegerField(blank=False, default=17)
