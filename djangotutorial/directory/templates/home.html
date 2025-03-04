@@ -4,57 +4,35 @@
 <html>
     <head>
         <link rel="stylesheet" href="static/styles.css">
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">   
+        <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">    -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
         
     <body>
-        <div class="navbar">
-            <div class="logo">
-                <a href="http://127.0.0.1:8000">
-                    <img src="static/image/untlogo.png" alt="UNT Home Logo"></a>
-                <a href="http://127.0.0.1:5500/genmappage.html"> 
-                    <img src="static/image/MAPDIRECTORY.png" alt "UNT Map Directory Link"></a>
-            </div>
 
-            <ul>
-                <li>
-                    <a href="#">Select Campus &#x25BE;</a>
-                    <div class="dropdown">
-                        <ul>
-                            <li><a href="http://127.0.0.1:8000/mapview/untmaincampus/">Main Campus</a></li>
-                            <li><a href="http://127.0.0.1:8000/mapview/discoveryparkcampus/">Discovery Park</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li><a href="http://127.0.0.1:8000/buildingview/">Buildings</a></li>
-            </ul>
-                <div class="searchbox">
-                    <input type="search" placeholder="Search:">
-                <label class="icon">
-                    <span class="fa fa-search"></span>
-                </label>
-            </div>
-        </div>
+        {% include "navbar.html" %}
 
         <div>
             <div class="page">
                 <text class="heading">Explore Our Campuses</text>
-                <a href="http://127.0.0.1:8000/mapview/untmaincampus/">
-                    <img src="static/image/maincampusimage.jpg" alt="UNT Main Campus" class="bubbleimage">
-                    <div class="text">Main Campus</div></a>
-                <a href="http://127.0.0.1:8000/mapview/discoveryparkcampus/">
-                    <img src="static/image/dpimage.JPG" alt="UNT Discovery Park" class="bubbleimage">
-                    <div class="text">Discovery Park</div></a>
-                <a href="http://127.0.0.1:8000/buildingview/">
-                    <img src="static/image/buildingimage.jpg" alt="UNT Buildings" class="bubbleimage">
-                    <div class="text">Buildings</div></a>
-
+                <div class="bubble-container">
+                    <a href="http://127.0.0.1:8000/mapview/untmaincampus/">
+                        <img src="static/image/maincampusimage.jpg" alt="UNT Main Campus" class="bubbleimage">
+                        <div class="text">Main Campus</div>
+                    </a>
+                    <a href="http://127.0.0.1:8000/mapview/discoveryparkcampus/">
+                        <img src="static/image/dpimage.JPG" alt="UNT Discovery Park" class="bubbleimage">
+                        <div class="text">Discovery Park</div>
+                    </a>
+                    <a href="http://127.0.0.1:8000/buildingview/">
+                        <img src="static/image/buildingimage.jpg" alt="UNT Buildings" class="bubbleimage">
+                        <div class="text">Buildings</div>
+                    </a>
+                </div>                
                 <text class="heading">About Us</text>
                 <text class="pgraph">abcdefg</text>
             </page>
         </div>
-
     </body>
 </html> 
