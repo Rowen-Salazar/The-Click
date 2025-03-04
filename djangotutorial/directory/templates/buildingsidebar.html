@@ -1,13 +1,23 @@
 {% load static %}
 
 <style>
+
+    /* hides sidebar on small screens */
+    @media screen and (max-width: 768px) {
+        .floating-sidebar {
+            display: none; /* Hides the sidebar on small screens */
+        }
+    }
+
     /* Floating Sidebar */
     .floating-sidebar {
-        position: absolute;
-        top: 19%;
-        right: 3%;
+        position: fixed;
+        top: 115px;
+        bottom: 60px;
+        right: 2%;
         width: 220px;
-        height: 71vh; /* ensures it doesn’t cover the whole page */
+        height: calc(100% - 175px);
+        /*height: 71vh; ensures it doesn’t cover the whole page */
         
         background-color: rgb(160 166 128 / 0.9); /* slight transparency */
         color: #A0A680;
@@ -55,13 +65,14 @@
 
     /* Ensures buildings in scrollbox are not seen under search bar */
     .sidebar-building-container {
-        position: absolute;
-        top: 20%;
-        right: 0px;
+        position: fixed;
+        top: 190px;
+        bottom: 61px;
+        right: 2%;
         width: 220px;
-        max-height: 58vh; 
+        height: calc(100% - 251px);
         background-color: transparent;
-        padding-top: 4px;
+        padding-top: 20px;
         padding-left: 20px;
         padding-right: 20px;
         padding-bottom: 20px;
