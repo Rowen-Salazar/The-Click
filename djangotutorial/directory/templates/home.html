@@ -1,57 +1,41 @@
 {% load static %}
+
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">    
-    <style>
-        * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Volkhov";
-        }
-        body {
-        min-height: 100vh;
-        background: radial-gradient(#708A70 26%, #446742 51%, #093705 92%);
-        }
-        .page {
-        width: 378px;
-        height: 360px;
-        flex-shrink: 0;
-        }
-    </style>
-</head>
-<body>
+<html>
+   <head>
+       <link rel="stylesheet" href="static/styles.css">
+       <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+       <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">    -->
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+      
+   <body>
 
-    {% include "navbar.html" %}
 
-    <page class="page">
-        <a href="maincampuspiclink" class="maincampuspicmap">
-            <img src="Maincampusbubble.png" alt="UNT Main Campus" >
-            <div class="mainpictext">Main Campus</div></a>
-        <a href="dppiclink" class="dppiclink">
-            <img src="DiscoveryParkbubble.png" alt="UNT Discovery Park" >
-            <div class="dppictext">Discovery Park</div></a>
-        <a href="buildingspiclink" class="buildingspic">
-            <img src="Buildingsbubble.png" alt="UNT Buildings" >
-            <div class="buildingstext">Buildings</div></a>
-    </page>
-</body>
+       {% include "navbar.html" %}
+
+
+       <div>
+           <div class="page">
+               <text class="heading">Explore Our Campuses</text>
+               <div class="bubble-container">
+                   <a href="http://127.0.0.1:8000/mapview/untmaincampus/">
+                       <img src="static/image/maincampusimage.jpg" alt="UNT Main Campus" class="bubbleimage">
+                       <div class="text">Main Campus</div>
+                   </a>
+                   <a href="http://127.0.0.1:8000/mapview/discoveryparkcampus/">
+                       <img src="static/image/dpimage.JPG" alt="UNT Discovery Park" class="bubbleimage">
+                       <div class="text">Discovery Park</div>
+                   </a>
+                   <a href="http://127.0.0.1:8000/buildingview/">
+                       <img src="static/image/buildingimage.jpg" alt="UNT Buildings" class="bubbleimage">
+                       <div class="text">Buildings</div>
+                   </a>
+               </div>               
+               <text class="heading">About Us</text>
+               <text class="pgraph">abcdefg</text>
+           </page>
+       </div>
+   </body>
 </html>
-
-<p style="text-align: center;">Home Page</p>
-</br>
-
-<p style="text-align: center;"><a href="http://127.0.0.1:8000/mapview/untmaincampus/" style="color:#27b73a">UNT Main Campus View</a></p>
-<p style="text-align: center;"><a href="http://127.0.0.1:8000/mapview/discoveryparkcampus/" style="color:#27b0b7">Discovery Park View</a></p>
-<p style="text-align: center;"><a href="http://127.0.0.1:8000/buildingview/" style="color:#9c29c9">Campus Buildings</a></p>
-<!-- <p style="text-align: center;"><a href="http://127.0.0.1:8000/about/" style="color:#b72798">About Us</a></p> -->
-
-{% for currmap in map_list %}
-    <p style="text-align: center;"><a href="/mapview/{{ currmap.map_name }}" style="color:#27b0b7">{{ currmap.map_name }}</a></p>
-{% endfor %}
