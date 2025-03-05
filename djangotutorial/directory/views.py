@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404, render
 from directory.models import Map, Building, Filter, Location
 from django.conf import settings
 from django.views import View
-#from django.http import HttpResponse
 
 def home(request):
     map_list = Map.objects.all()
