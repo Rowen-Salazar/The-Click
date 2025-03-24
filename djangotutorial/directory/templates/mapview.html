@@ -87,76 +87,86 @@
         {% endfor %}
     </div>
 
-    <p style="text-align: center;"><a href="http://127.0.0.1:8000/" style="color:#2761b7">Back</a></p>
+    
 
 </body>
 
 <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWl8uFZQTCMxBy8MNe8YaPDlelX6No4LI&callback=initMap&v=beta&libraries=marker&loading=async"
     defer
-></script>
-
-</html>
-
-
-
-
- <!--                              *stuff in progress - josh*
+></script> 
+<!--
 <style>
     #map{
         height: 600px;
         width: 1000px;
     }
-</style>
+</style> 
 
-<<div id="map"></div>
-
-<script id="location_data" type="application/json">
-    {% for currLoc in all_locations %}
-        { "name": "{{ currLoc.name }}", lat: {{ currLoc.latitude }}, lng: {{ currLoc.longitude }} },
-    {% endfor %}
+<script>
+    (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+        key: "AIzaSyCWl8uFZQTCMxBy8MNe8YaPDlelX6No4LI",
+        v: "beta",
+    });
 </script>
+
+<div id="map"></div>
 
 <ul>
     {% for currLoc in all_locations %}
-        <li data-latitude="{{ currLoc.latitude }}"
-            data-longitude="{{ currLoc.longitude }}"
-            data-name="{{ currLoc.name }}">
+        <li style="display:none;" data-index="{{ forloop.counter0 }}">
+            {{ currLoc.name }}
         </li>
     {% endfor %}
 </ul>
 
-<div id="location_details"></div>
+{{ all_locations|json_script:"locations_json" }}
+
 
 <script>
-    function initMap(){
-        const map = new google.maps.Map(document.getElementById("map"), {
-            center: {lat: 33.21099225203791, lng: -97.14775843454004},
+    let location_json_data = JSON.parse(document.getElementById('locations_json').textContent)
+
+    location_json_data.forEach(element => {
+        console.log(element)
+    }) 
+
+    let map;
+
+    async function initMap() {
+        const { Map } = await google.maps.importLibrary("maps");
+        map = new Map(document.getElementById("map"), {
+            center: {lat: 33.21099225203791, lng: -97.14775843454004 },
             zoom: 17,
-        });
-        
-        let locationData = document.querySelectorAll('li');
-        let container = document.getElementById('location_details')
-        locationData.forEach(location=> {
-            addDetails(container, location);
+            mapId: "6b48f6d6a3921abd",
         });
 
-        function addDetails(container, currLoc) {
-            let data = currLoc.dataset
-            addMarkers(data)
-        }
-
-        function addMarkers(currLoc) {
-            const marker = new AdvancedMarkerElement({
-                map,
-                position: { lat: currLoc.latitude, lng: currLoc.longitude },
-                title: currLoc.name,
-            })
-        }
-        
+        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+        const marker = new AdvancedMarkerElement({
+            map,
+            position: { lat: 33.21099225203791, lng: -97.14775843454004 },
+            title: "Union",
+            
+        });
+    
     }
-</script>
--->
 
 
-<!--working stuff below - josh-->
+initMap(location_json_data)
+
+</script> -->
+
+
+<div class="container">
+    <p style="font-size: 16px; text-align: center;">FILTERS</p>
+
+    {% for filters in all_filters %}
+    <div class="group">
+        <input type="checkbox" id="{{ filters.name }}"/>
+        <label for="{{ filters.name }}">{{ filters.name }} </label>
+    </div>
+    {% endfor %}
+</div>
+
+<p style="text-align: center;"><a href="http://127.0.0.1:8000/" style="color:#2761b7">Back</a></p>
+
+</html>

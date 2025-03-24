@@ -11,7 +11,7 @@ def home(request):
 
 def mapview(request, map_name):
     full_map = get_object_or_404(Map, name=map_name)
-    all_locations = Location.objects.all()
+    all_locations = list(Location.objects.values())
     all_filters = Filter.objects.all()
     context = {
         'full_map': full_map,
