@@ -1,6 +1,205 @@
 {% load static %}
 
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <style>
+
+    @import url('https://fonts.googleapis.com/css2?family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+    
+    .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 10px 0px 5px;
+        flex-wrap: wrap;
+        height: auto;
+        width: 100%;
+        font-family: "Volkhov";
+    
+        position: fixed;
+        top: 0;
+        /* height: 80px; */
+        background-color: #D2D4C4;
+        border: 3px solid #669631;
+        border-right: none;
+        border-left: none;
+        filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.3));
+        outline-offset: -3px;
+        z-index: 99998;
+    }
+    
+    .navbar ul {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: auto;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center; /* vertically center the logo */
+        margin-bottom: 3px;
+        /* justify-content: center; Optionally center logo horizontally if needed */
+    }
+    
+    .logo img {
+        width: 185px;  /* set default width */
+        height: auto;  /* maintain aspect ratio */
+        transition: width 0.3s ease;
+    }
+    
+    .logo a {
+        cursor: pointer;
+    }
+    
+    .navbar ul li {
+        margin: auto;
+        padding: 0px 60px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .navbar ul li a {
+        color: #0E4809;
+        text-decoration: none;
+        font-size: 18px;
+        /* content: '';
+        position: relative;
+        top: 10%;
+        width: 0%;
+        height: 2px;
+        background: #D2D4C4;
+        transition: .15s; 
+        margin-left: 40px; */
+    }
+    
+    .navbar ul li a:hover {
+        width: 100%;
+    }
+    
+    .dropdown {
+        display: none;
+        position: absolute;
+        top: 100%; /* Position below the parent list item */
+        left: 0; /* Align to the left */
+        z-index: 99999; /* Ensure it's on top of other elements */
+        background-color: #00663F;
+    }
+    
+    .dropdown ul li {
+        width: 110px;
+        padding: 8px 10px;
+    }
+    
+    .dropdown ul li a {
+        color: white;
+        background: #00663F;
+        font-size: 13px;
+    }
+    
+    .navbar ul li:hover .dropdown {
+        display: block;
+        position: absolute;
+        left: auto; /* position of dropdown box under select campus */
+        top: 55px;
+        background-color: #00663F;
+        border-radius: 10px;
+        box-shadow: none;
+        margin: 0px;
+        padding: 10px 5px 0px 5px;
+        list-style: none;
+    }
+    
+    /* every time you change anything in .navbar ul li a or .navbar ul li you have to fix this >:( */
+    /* this controls the dropdown sizing */
+    .navbar ul li:hover .dropdown ul {
+        display: block;
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+    }
+    
+    .searchbox {
+        height: 40px;
+        width: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: auto;
+        margin-right: 5%;
+        margin-bottom: 10px;
+        background: #D2D4C4;
+        position: relative;
+    }
+    
+    .searchbox input {
+        height: 100%;
+        width: 180px;
+        color: #0E4809;
+        outline: none;
+        padding: 0 10px;
+        font-size: 16px;
+    }
+    
+    .icon {
+        width: 90px;
+        height: 30px;
+        padding: 5px 8px;
+        
+        text-align: center;
+        border: 1px solid #cccccc;
+        background: #0E4809;
+        
+        cursor: pointer;
+    }
+    
+    .icon:hover {
+        background: rgb(4, 42, 7);
+    }
+    
+    .icon span {
+        color: white;
+        font-size: 25px;
+    }
+</style>
+
+
+<div class="navbar">
+    <div class="logo">
+        <a href="http://127.0.0.1:8000">
+            <img src="/static/image/untlogo.png" alt="UNT Home Logo">
+        </a>
+        <a href="http://127.0.0.1:8000"> 
+            <img src="/static/image/MAPDIRECTORY.png" alt "UNT Map Directory Link">
+        </a>
+    </div>
+
+    <ul>
+        <li>
+            <a href="#">Select Campus &#x25BE;</a>
+            <div class="dropdown">
+                <ul>
+                    <li><a href="http://127.0.0.1:8000/mapview/untmaincampus/">Main Campus</a></li>
+                    <li><a href="http://127.0.0.1:8000/mapview/discoveryparkcampus/">Discovery Park</a></li>
+                </ul>
+            </div>
+        </li>
+        <li>
+            <a href="http://127.0.0.1:8000/buildingview/">Buildings</a>
+        </li>
+    </ul>
+    <div class="searchbox">
+        <input type="search" placeholder="Search:">
+        <label class="icon">
+            <span class="fa fa-search"></span>
+        </label>
+    </div>
+</div>
+
+
+<!-- <style>
     /* Nav Bar */
     .navbar {
         background: #D2D4C4;
@@ -56,18 +255,18 @@
         align-items: center;
         /*display: flex;*/
     }
-</style>
+</style> -->
 
 
 <!-- replace div with nav - accessibility -->
-<div class="navbar">
+<!-- <div class="navbar">
     <div class="nav-logo"><img src="/media/images/navBarMedia/untLogo.png" class="nav-untlogo"> <span>MAP DIRECTORY</span></div>
     <div class="nav-links">
         <span class="nav-dropdown">Select Campus ▾</span>
         <span>Buildings</span>
         <span class="nav-search-box"><img src="/media/images/navBarMedia/search.png" class="nav-search">SEARCH</span>
     </div>
-</div>
+</div> -->
 
 <!-- NEW NAVBAR CODE -- WORK IN PROGRESS -->
 <!-- <style>

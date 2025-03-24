@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404, render
 from directory.models import Map, Building, Filter, Location
 from django.conf import settings
 from django.views import View
-#from django.http import HttpResponse
 
 def home(request):
     map_list = Map.objects.all()
@@ -11,7 +10,7 @@ def home(request):
 
 def mapview(request, map_name):
     full_map = get_object_or_404(Map, name=map_name)
-    all_locations = list(Location.objects.values())
+    all_locations = Location.objects.all()
     all_filters = Filter.objects.all()
     context = {
         'full_map': full_map,
@@ -35,4 +34,3 @@ def buildingview(request, building_name):
 
 def my_view(request):
     return render(request, 'home.html', {'MEDIA_URL': settings.MEDIA_URL})
-
