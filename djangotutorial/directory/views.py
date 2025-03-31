@@ -24,7 +24,7 @@ def buildinglist(request):
     return render(request, 'buildingview.html', {'building_list': building_list})
 
 def buildingview(request, building_name):
-    full_building = get_object_or_404(Building, name=building_name)
+    full_building = get_object_or_404(Building, slug=building_name)
     all_filters = Filter.objects.all()
     context = {
         'full_building': full_building,
