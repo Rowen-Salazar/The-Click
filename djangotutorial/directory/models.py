@@ -16,15 +16,21 @@ class Map(models.Model):
         return self.display_name
 
 class Building(models.Model):
-    name = models.CharField(max_length=50)
     display_name = models.CharField(max_length=200, blank=True)
+    slug = models.SlugField(default="", null=False, unique=True)
+    #floor plans
     floors = models.IntegerField(blank=False, default=1)
-    floor_plan = models.ImageField(null=True, blank=True, upload_to="images/")
+    ground_floor = models.ImageField(null=True, blank=True, upload_to="images/buildingFloors")
+    #Floor one is NOT optional, all others are
+    floor_one = models.ImageField(null=True, upload_to="images/buildingFloors")
+    floor_two = models.ImageField(null=True, blank=True, upload_to="images/buildingFloors")
+    floor_three = models.ImageField(null=True, blank=True, upload_to="images/buildingFloors")
+    floor_four = models.ImageField(null=True, blank=True, upload_to="images/buildingFloors")
+    floor_five = models.ImageField(null=True, blank=True, upload_to="images/buildingFloors")
     on_map = models.ForeignKey(Map, on_delete=models.CASCADE)
     #for sidebar
-    #address = models.CharField(max_length=225)
-    #image = models.ImageField(upload_to='images/buildingSearchBox/')
-    #slug = models.SlugField(unique=True)
+    address = models.CharField(max_length=225, blank=True)
+    sidebar_image = models.ImageField(null=True, upload_to='images/buildingSearchBox/')
     def __str__(self):
         return self.display_name
 
