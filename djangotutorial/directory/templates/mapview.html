@@ -69,28 +69,59 @@
     <div class="googlemaps">
         <gmp-map center="{{ full_map.center }}" zoom="{{ full_map.zoom }}" map-id="{{ full_map.map_id }}">
     
+            <div class="container">
+                <p style="font-size: 16px; text-align: center; ">FILTERS</p>
+            
+                {% for filters in all_filters %}
+                <div class="group">
+                    <input type="checkbox" class="filter_checkbox" id="{{ filters.name }}" value="{{ filters.name}}" checked/>
+                    <label for="{{ filters.name }}">{{ filters.name }} </label>
+                </div>
+                {% endfor %}
+            </div>
+            
             {% for currLoc in all_locations %}
+            <div class="markers" data-category="{{ currLoc.filter_category }}">
                 <gmp-advanced-marker
                 gmp-clickable="true" 
                 position="{{ currLoc.latitude }}, {{ currLoc.longitude }}"
                 title="{{ currLoc.name }}"
                 category="{{ currLoc.filter_category }}"
                 ></gmp-advanced-marker>
+            </div>
             {% endfor %}
-        
+
         </gmp-map>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const checkboxes = document.querySelectorAll(".filter_checkbox")
+            const markers = document.querySelectorAll(" .markers ")
+
+            function updateMarkers() {
+                const activeFilters = new Set(
+                    Array.from(checkboxes)
+                        .filter(checkbox => checkbox.checked)
+                        .map(checkbox => checkbox.value)
+                );
+
+                markers.forEach(marker => {
+                    const category = marker.dataset.category;
+                    marker.style.display = activeFilters.has(category) ? "block" : "none";
+                });
+            }
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener("change", updateMarkers);
+            });
+
+            updateMarkers();
+        });
+
+    </script>
     
-    <div class="container">
-        <p style="font-size: 16px; text-align: center;">FILTERS</p>
     
-        {% for filters in all_filters %}
-        <div class="group">
-            <input type="checkbox" id="{{ filters.name }}"/>
-            <label for="{{ filters.name }}">{{ filters.name }} </label>
-        </div>
-        {% endfor %}
-    </div>
 
     <p style="text-align: center;"><a href="http://127.0.0.1:8000/" style="color:#2761b7">Back</a></p>
 
@@ -106,7 +137,7 @@
 
 
 
- <!--                              *stuff in progress - josh*
+ <!--                           *stuff in progress - josh* 
 <style>
     #map{
         height: 600px;
@@ -114,7 +145,9 @@
     }
 </style>
 
-<<div id="map"></div>
+<div id="map"></div>
+
+
 
 <script id="location_data" type="application/json">
     {% for currLoc in all_locations %}
@@ -144,10 +177,13 @@
         let container = document.getElementById('location_details')
         locationData.forEach(location=> {
             addDetails(container, location);
+            
         });
+
 
         function addDetails(container, currLoc) {
             let data = currLoc.dataset
+            console.log(data)
             addMarkers(data)
         }
 
@@ -160,8 +196,10 @@
         }
         
     }
+
 </script>
 -->
+
 
 
 <!--working stuff below - josh-->
