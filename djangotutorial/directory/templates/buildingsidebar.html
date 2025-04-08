@@ -170,15 +170,17 @@
             <input type="text" id="searchInput" class="sidebar-search-box" placeholder="" >
         <!-- </div> -->
     </div>    
-        
+    
+    <!-- {% if building_list %} -->
     <div class="sidebar-building-container" id="buildingList">
 
-        <!-- {% for building in buildings %}
+        <!-- {% for building in building_list %}
         <div class="sidebar-building-box" id="buildingBox">
-            <div class="sidebar-building-content">
-                <a data-name="{{ building.name }}" data-url="buildingview">{{ building.name }}<br><br>{{ building.address }}</a>
-                <img src="{{ building.image.url }}" alt="{{ building.name }}" class="sidebar-building-image">
-            </div>
+            <a data-name="{{ building.display_name }}" data-url="{% url 'directory:buildingview' building.slug %}">
+                <span class="sidebar-building-title">{{ building.display_name }}</span>
+                <span class="sidebar-building-address">{{ building.address }}</span>
+            </a>
+            <img src="{{ building.sidebar_image.url }}" alt="Search" class="sidebar-building-image">
         </div>
         {% endfor %} -->
 
@@ -379,6 +381,7 @@
             <img src="/media/images/buildingSearchBox/wooten.png" alt="Search" class="sidebar-building-image">
         </div>
     </div>
+    <!-- {% endif %} -->
 </div>
 
 <script>
@@ -387,7 +390,8 @@
         box.addEventListener("click", function() {
             let buildingURL = this.querySelector("a").dataset.url;
             let formattedURL = buildingURL.toLowerCase().replace(/\s+/g, "-"); // Also change data-name in each building box
-            window.location.href = `http://127.0.0.1:8000/${formattedURL}/`; // Change URL to http://127.0.0.1:8000/buildingview/${formattedName}/ when we make building pages
+            //window.location.href = `http://127.0.0.1:8000${buildingURL}`; // Change URL to http://127.0.0.1:8000/buildingview/${formattedName}/ when we make building pages
+            window.location.href = `http://127.0.0.1:8000/${buildingURL}/`;
         });
     });
     

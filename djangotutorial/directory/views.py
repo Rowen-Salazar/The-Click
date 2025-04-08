@@ -26,8 +26,10 @@ def buildinglist(request):
 def buildingview(request, building_name):
     full_building = get_object_or_404(Building, slug=building_name)
     all_filters = Filter.objects.all()
+    # building_list = Building.objects.all() # add this back when the building sidebar is dynamic
     context = {
         'full_building': full_building,
+        # 'building_list': building_list, # add this back when the building sidebar is dynamic
         'all_filters': all_filters
     }
     return render(request, 'buildingview.html', context)
