@@ -20,6 +20,7 @@ class Building(models.Model):
     slug = models.SlugField(default="", null=False, unique=True)
     #floor plans
     floors = models.IntegerField(blank=False, default=1)
+    has_ground_floor = models.BooleanField(default=False)
     ground_floor = models.ImageField(null=True, blank=True, upload_to="images/buildingFloors")
     #Floor one is NOT optional, all others are
     floor_one = models.ImageField(null=True, upload_to="images/buildingFloors")
