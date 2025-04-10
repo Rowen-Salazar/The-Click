@@ -12,10 +12,12 @@ def mapview(request, map_name):
     full_map = get_object_or_404(Map, name=map_name)
     all_locations = Location.objects.all()
     all_filters = Filter.objects.all()
+    building_list = Building.objects.all() # this makes sure building sidebar content always loads
     context = {
         'full_map': full_map,
         'all_locations': all_locations,
-        'all_filters': all_filters
+        'all_filters': all_filters,
+        'building_list': building_list # this makes sure building sidebar content always loads
     }
     return render(request, 'mapview.html', context)
 
@@ -26,11 +28,11 @@ def buildinglist(request):
 def buildingview(request, building_name):
     full_building = get_object_or_404(Building, slug=building_name)
     all_filters = Filter.objects.all()
-    # building_list = Building.objects.all() # add this back when the building sidebar is dynamic
+    building_list = Building.objects.all() # this makes sure building sidebar content always loads
     context = {
         'full_building': full_building,
-        # 'building_list': building_list, # add this back when the building sidebar is dynamic
-        'all_filters': all_filters
+        'all_filters': all_filters,
+        'building_list': building_list # this makes sure building sidebar content always loads
     }
     return render(request, 'buildingview.html', context)
 

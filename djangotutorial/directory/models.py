@@ -17,6 +17,8 @@ class Map(models.Model):
 
 class Building(models.Model):
     display_name = models.CharField(max_length=200, blank=True)
+    class Meta:
+        ordering = ['display_name']  # ensures alphabetical order by name
     slug = models.SlugField(default="", null=False, unique=True)
     #floor plans
     floors = models.IntegerField(blank=False, default=1)
@@ -31,6 +33,7 @@ class Building(models.Model):
     on_map = models.ForeignKey(Map, on_delete=models.CASCADE)
     #for sidebar
     address = models.CharField(max_length=225, blank=True)
+    mnemonic = models.CharField(max_length=10, blank=True)
     sidebar_image = models.ImageField(null=True, upload_to='images/buildingSearchBox/')
     def __str__(self):
         return self.display_name
