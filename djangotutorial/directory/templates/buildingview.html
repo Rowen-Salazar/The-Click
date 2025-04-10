@@ -5,31 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UNT Map Directory</title>
+    <link rel="stylesheet" href="{% static 'css/buildingview.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #708A70;
-            padding-top: 60px;
-        }
-    </style>
+    <link rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap">
 </head>
 <body>
     {% include "navbar.html" %}
-
-    <div class="content">
-        <h1>Building Page</h1>
-        <p>:)</p>
-    </div>
     
     {% include "buildingsidebar.html" %}
 
-    <p style="text-align: center;">View of Building Specifics</p>
+    <!-- Pre-loaded Building Floor Plan Display (always first floor) -->
+    {% if full_building %}
+        <h1 class="building-name">{{ full_building.display_name }}</h1>
+    {% endif %}
 
-    <p style="text-align: center;"><a href="http://127.0.0.1:8000/" style="color:#2761b7">Back</a></p>
+    <div class="floorplan-container">
+        {% if full_building and full_building.floor_1 %}
+            <img id="zoomable-image" src="{{ full_building.floor_1.url }}" alt="Floor plan image of {{ full_building.display_name }}">
+        {% else %}
+            <p class="placeholder-text">Please select a building from the building sidebar to view :)</p>
+        {% endif %}
+    </div>
 
 </body>
 </html>
