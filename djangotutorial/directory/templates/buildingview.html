@@ -21,8 +21,8 @@
     {% endif %}
 
     <div class="floorplan-container">
-        {% if full_building and full_building.floor_one %}
-            <img id="zoomable-image" src="{{ full_building.floor_one.url }}" alt="Floor plan image of {{ full_building.display_name }}">
+        {% if full_building and full_building.floor_1 %}
+            <img id="zoomable-image" src="{{ full_building.floor_1.url }}" alt="Floor plan image of {{ full_building.display_name }}">
         {% else %}
             <p class="placeholder-text">Please select a building from the building sidebar to view :)</p>
         {% endif %}

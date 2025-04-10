@@ -27,7 +27,6 @@ def buildinglist(request):
 
 def buildingview(request, building_name):
     full_building = get_object_or_404(Building, slug=building_name)
-    floor_range = get_object_or_404(Building, floor=floor_num)
     all_filters = Filter.objects.all()
     building_list = Building.objects.all() # this makes sure building sidebar content always loads
     context = {
