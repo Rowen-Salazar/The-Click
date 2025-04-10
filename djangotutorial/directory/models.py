@@ -25,11 +25,14 @@ class Building(models.Model):
     has_ground_floor = models.BooleanField(default=False)
     ground_floor = models.ImageField(null=True, blank=True, upload_to="images/buildingFloors")
     #Floor one is NOT optional, all others are
-    floor_one = models.ImageField(null=True, upload_to="images/buildingFloors")
-    floor_two = models.ImageField(null=True, blank=True, upload_to="images/buildingFloors")
-    floor_three = models.ImageField(null=True, blank=True, upload_to="images/buildingFloors")
-    floor_four = models.ImageField(null=True, blank=True, upload_to="images/buildingFloors")
-    floor_five = models.ImageField(null=True, blank=True, upload_to="images/buildingFloors")
+    floor_1 = models.ImageField(null=True, upload_to="images/buildingFloors")
+    floor_2 = models.ImageField(null=True, blank=True, upload_to="images/buildingFloors")
+    floor_3 = models.ImageField(null=True, blank=True, upload_to="images/buildingFloors")
+    floor_4 = models.ImageField(null=True, blank=True, upload_to="images/buildingFloors")
+    floor_5 = models.ImageField(null=True, blank=True, upload_to="images/buildingFloors")
+    #For DP
+    floor_6 = models.ImageField(null=True, blank=True, upload_to="images/buildingFloors")
+    floor_7 = models.ImageField(null=True, blank=True, upload_to="images/buildingFloors")
     on_map = models.ForeignKey(Map, on_delete=models.CASCADE)
     #for sidebar
     address = models.CharField(max_length=225, blank=True)
