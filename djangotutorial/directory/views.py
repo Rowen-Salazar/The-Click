@@ -1,6 +1,6 @@
 
 from django.shortcuts import get_object_or_404, render
-from directory.models import Map, Building, Filter, Location
+from directory.models import Map, Building, Filter, Location, POI, POIFilter
 from django.conf import settings
 from django.views import View
 
@@ -27,13 +27,24 @@ def buildinglist(request):
 
 def buildingview(request, building_name):
     full_building = get_object_or_404(Building, slug=building_name)
-    all_filters = Filter.objects.all()
+    all_categories = POIFilter.objects.all()  # Get all POI categories
     building_list = Building.objects.all() # this makes sure building sidebar content always loads
+    
+    # Handle category filtering
+    selected_categories = request.GET.getlist('category')
+    if selected_categories:
+        pois = POI.objects.filter(building=full_building, category__id__in=selected_categories)
+    else:
+        pois = POI.objects.filter(building=full_building)  # Show all POIs if no category is selected
+
     context = {
         'full_building': full_building,
-        'all_filters': all_filters,
-        'building_list': building_list # this makes sure building sidebar content always loads
+        'building_list': building_list, # this makes sure building sidebar content always loads
+        'pois': pois,
+        'all_categories': all_categories,
+        'selected_categories': selected_categories,    
     }
+
     return render(request, 'buildingview.html', context)
 
 def my_view(request):

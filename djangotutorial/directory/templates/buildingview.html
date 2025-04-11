@@ -22,11 +22,34 @@
 
     <div class="floorplan-container">
         {% if full_building and full_building.floor_1 %}
-            <img id="zoomable-image" src="{{ full_building.floor_1.url }}" alt="Floor plan image of {{ full_building.display_name }}">
+            <div class="floorplan-wrapper">
+                <img id="zoomable-image" src="{{ full_building.floor_1.url }}" alt="Floor plan image of {{ full_building.display_name }}">
+            
+                {% for poi in pois %}
+                    <img src="{{ poi.category.icon.url }}" 
+                        class="poi-icon" 
+                        style="left: {{ poi.x_coord }}%; top: {{ poi.y_coord }}%;" 
+                        title="{{ poi.label }}">
+                {% endfor %}
+            </div>
         {% else %}
             <p class="placeholder-text">Please select a building from the building sidebar to view :)</p>
         {% endif %}
     </div>
+
+    <div class="poi-filters">
+        <h3>Filter POIs by Category</h3>
+        <form id="poi-filter-form" method="GET" action="">
+            {% for category in all_categories %}
+                <label>
+                    <input type="checkbox" name="category" value="{{ category.id }}" 
+                        {% if category.id in selected_categories %}checked{% endif %}>
+                    {{ category.name }}
+                </label><br>
+            {% endfor %}
+            <button type="submit">Apply Filters</button>
+        </form>
+    </div>    
 
 </body>
 </html>
