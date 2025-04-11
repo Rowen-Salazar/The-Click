@@ -60,21 +60,21 @@ class Filter(models.Model):
 
 class POIFilter(models.Model):
     name = models.CharField(max_length=100)
-    icon = models.ImageField(upload_to="images/POI_Icons/", null=True, blank=True)
-
+    # icon = models.ImageField(upload_to="images/POI_Icons/", null=True, blank=True)
     def __str__(self):
         return self.name
 
-class POI(models.Model):
+class BuildingCategoryImage(models.Model):
     building = models.ForeignKey(Building, on_delete=models.CASCADE)
-    category = models.ForeignKey(POIFilter, on_delete=models.CASCADE, default=1)
+    category = models.ForeignKey(POIFilter, on_delete=models.CASCADE)
     floor = models.IntegerField()
-    x_coord = models.FloatField(help_text="X coordinate as percentage (0–100)")
-    y_coord = models.FloatField(help_text="Y coordinate as percentage (0–100)")
-    label = models.CharField(max_length=100, blank=True)
+    image = models.ImageField(upload_to='images/buildingCategoryImages/')
+
+    class Meta:
+        ordering = ['building__display_name', 'floor', 'category__name'] # ensures alphabetical order
 
     def __str__(self):
-        return f"{self.label} - {self.building.display_name} (Floor {self.floor})"
+        return f"{self.building.display_name} - Floor {self.floor} ({self.category.name})"
 
 class Location(models.Model):
     name = models.CharField(max_length=500,blank=True, null=True)

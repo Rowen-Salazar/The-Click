@@ -1,6 +1,6 @@
 
 from django.shortcuts import get_object_or_404, render
-from directory.models import Map, Building, Filter, Location, POI, POIFilter
+from directory.models import Map, Building, Filter, Location, POIFilter, BuildingCategoryImage
 from django.conf import settings
 from django.views import View
 
@@ -28,21 +28,24 @@ def buildinglist(request):
 def buildingview(request, building_name):
     full_building = get_object_or_404(Building, slug=building_name)
     all_categories = POIFilter.objects.all()  # Get all POI categories
+    selected_category_id = request.GET.get("category")
     building_list = Building.objects.all() # this makes sure building sidebar content always loads
     
-    # Handle category filtering
-    selected_categories = request.GET.getlist('category')
-    if selected_categories:
-        pois = POI.objects.filter(building=full_building, category__id__in=selected_categories)
-    else:
-        pois = POI.objects.filter(building=full_building)  # Show all POIs if no category is selected
+    category_image = None
+    if selected_category_id:
+        try:
+            category_image = BuildingCategoryImage.objects.get(
+                building=full_building, floor=1, category__id=selected_category_id
+            )
+        except BuildingCategoryImage.DoesNotExist:
+            category_image = None
 
     context = {
         'full_building': full_building,
         'building_list': building_list, # this makes sure building sidebar content always loads
-        'pois': pois,
         'all_categories': all_categories,
-        'selected_categories': selected_categories,    
+        'selected_category_id': int(selected_category_id) if selected_category_id else None,
+        'category_image': category_image,  
     }
 
     return render(request, 'buildingview.html', context)

@@ -21,33 +21,28 @@
     {% endif %}
 
     <div class="floorplan-container">
-        {% if full_building and full_building.floor_1 %}
-            <div class="floorplan-wrapper">
-                <img id="zoomable-image" src="{{ full_building.floor_1.url }}" alt="Floor plan image of {{ full_building.display_name }}">
-            
-                {% for poi in pois %}
-                    <img src="{{ poi.category.icon.url }}" 
-                        class="poi-icon" 
-                        style="left: {{ poi.x_coord }}%; top: {{ poi.y_coord }}%;" 
-                        title="{{ poi.label }}">
-                {% endfor %}
-            </div>
-        {% else %}
-            <p class="placeholder-text">Please select a building from the building sidebar to view :)</p>
-        {% endif %}
+        <div class="floorplan-wrapper">
+            {% if category_image %}
+                <img id="zoomable-image" src="{{ category_image.image.url }}" alt="Category-specific floor image">
+            {% elif full_building.floor_1 %}
+                <img id="zoomable-image" src="{{ full_building.floor_1.url }}" alt="Default floor image">
+            {% else %}
+                <p class="placeholder-text">No image available for this floor.</p>
+            {% endif %}
+        </div>
     </div>
-
+    
     <div class="poi-filters">
-        <h3>Filter POIs by Category</h3>
+        <h3>Select Category</h3>
         <form id="poi-filter-form" method="GET" action="">
-            {% for category in all_categories %}
-                <label>
-                    <input type="checkbox" name="category" value="{{ category.id }}" 
-                        {% if category.id in selected_categories %}checked{% endif %}>
-                    {{ category.name }}
-                </label><br>
-            {% endfor %}
-            <button type="submit">Apply Filters</button>
+            <select name="category" onchange="this.form.submit()">
+                <option value="">-- Show Default Floor --</option>
+                {% for category in all_categories %}
+                    <option value="{{ category.id }}" {% if category.id == selected_category_id %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
         </form>
     </div>    
 
