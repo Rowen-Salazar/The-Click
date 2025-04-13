@@ -31,13 +31,15 @@ def buildingview(request, building_name):
     selected_category_id = request.GET.get("category")
     building_list = Building.objects.all() # this makes sure building sidebar content always loads
     
+    current_category = None
     category_image = None
     if selected_category_id:
         try:
+            current_category = POIFilter.objects.get(id=selected_category_id)
             category_image = BuildingCategoryImage.objects.get(
-                building=full_building, floor=1, category__id=selected_category_id
+                building=full_building, floor=1, category=current_category
             )
-        except BuildingCategoryImage.DoesNotExist:
+        except (POIFilter.DoesNotExist, BuildingCategoryImage.DoesNotExist):
             category_image = None
 
     context = {
@@ -45,7 +47,8 @@ def buildingview(request, building_name):
         'building_list': building_list, # this makes sure building sidebar content always loads
         'all_categories': all_categories,
         'selected_category_id': int(selected_category_id) if selected_category_id else None,
-        'category_image': category_image,  
+        'category_image': category_image,
+        'current_category': current_category,
     }
 
     return render(request, 'buildingview.html', context)

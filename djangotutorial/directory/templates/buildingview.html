@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap">
+
 </head>
 <body>
     {% include "navbar.html" %}
@@ -32,19 +33,8 @@
         </div>
     </div>
     
-    <div class="poi-filters">
-        <h3>Select Category</h3>
-        <form id="poi-filter-form" method="GET" action="">
-            <select name="category" onchange="this.form.submit()">
-                <option value="">-- Show Default Floor --</option>
-                {% for category in all_categories %}
-                    <option value="{{ category.id }}" {% if category.id == selected_category_id %}selected{% endif %}>
-                        {{ category.name }}
-                    </option>
-                {% endfor %}
-            </select>
-        </form>
-    </div>    
+    {% include "buildingFiltersDropdown.html" %}    
 
 </body>
+
 </html>
