@@ -28,10 +28,10 @@ body {
     align-items: center;
     background: #ffffff;
     border: 3px solid #669631;
-    box-shadow: 0px 0px 8px 3px rgba(0, 0, 0, 0.3);
-    /*z-index: 0;*/          
+    box-shadow: 0px 0px 8px 3px rgba(0, 0, 0, 0.3);   
     overflow: hidden;
 }
+
 /* adjust left and right container spacing on smaller screens */
 @media (max-width: 768px) {
     .floorplan-container {
@@ -43,7 +43,49 @@ body {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
+    /* Zoom and Grab */
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: center center; /* Set the origin for zooming */
+    transition: transform 0.2s ease-in-out;
+    cursor: grab;
 }
+
+/* Button for Zooming In */
+.in {
+    position: absolute;
+    top: 95%;
+    left: 49%;
+    transform: translate(-100%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #00663f;
+    color: white;
+    font-size: 16px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+}
+
+/* Button for Zooming Out */
+.out {
+    position: absolute;
+    top: 95%;
+    left: 51%;
+    transform: translate(0%, -50%);
+    -ms-transform: translate(0%, -50%);
+    background-color: #00663f;
+    color: white;
+    font-size: 16px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+}
+
+.in:hover, .out:hover{
+  background-color: #018552;
+}
+
 .placeholder-text {
     font-size: 25px;
     font-weight: bold;
