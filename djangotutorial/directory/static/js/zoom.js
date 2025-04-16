@@ -27,7 +27,6 @@ function zoomOut() {
         //Zoom Out
         zoomLevel = zoomLevel - zoomFactor;
         zoomState = zoomState - 1;
-
     }
   image.style.transform = `scale(${zoomLevel})`;
 }
