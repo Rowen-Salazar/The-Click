@@ -1,6 +1,5 @@
 body {
     margin: 0;
-    font-family: "Montserrat";
     background-color: #708A70;
     padding-top: 70px;
 }
@@ -12,6 +11,7 @@ body {
     color: #ffffff;
     font-size: 30px;
     text-align: center;
+    font-family: "Montserrat";
     font-weight: bold;
     padding: 10px;
     border-radius: 8px;
@@ -52,7 +52,7 @@ body {
     cursor: grab;
 }
 
-/* Button for Zooming In */
+/* Button for Zooming In
 .in {
     position: absolute;
     top: 95%;
@@ -68,7 +68,7 @@ body {
 }
 
 /* Button for Zooming Out */
-.out {
+/* .out {
     position: absolute;
     top: 95%;
     left: 51%;
@@ -84,7 +84,7 @@ body {
 
 .in:hover, .out:hover{
   background-color: #018552;
-}
+} */
 
 .placeholder-text {
     font-size: 25px;
@@ -93,3 +93,88 @@ body {
     text-align: center;
     padding: 80px;
 }
+
+.floorplan-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.floorplan-wrapper img#zoomable-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain; /* new */
+}
+
+/* .category-dropdown {
+    
+    position:relative;
+    display:inline-block;
+    width: 100%;
+    max-width: 300px;
+    font-family: monospace;
+    font-weight: bold;
+    margin: 1rem auto;
+}
+
+.dropdown-toggle {
+    background-color: #dcdcdc;
+    color: #004d00;
+    padding: 1rem;
+    width: 100%;
+    text-align: center;
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.dropdown-toggle:hover {
+    background-color: #cfcfcf;
+}
+
+.dropdown-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #dcdcdc;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    margin-top: 0.5rem;
+    overflow: hidden;
+}
+
+.dropdown-option {
+    width: 100%;
+    padding: 1rem;
+    text-align: left;
+    background-color: transparent;
+    border: none;
+    color: #004d00;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.dropdown-option:hover {
+    background-color: #b0b0b0;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Responsive tweaks */
+/* @media screen and (max-width: 768px) {
+    .category-dropdown {
+        max-width: 90%;
+    }
+
+    .dropdown-toggle,
+    .dropdown-option {
+        font-size: 1rem;
+        padding: 0.75rem;
+    }
+} */

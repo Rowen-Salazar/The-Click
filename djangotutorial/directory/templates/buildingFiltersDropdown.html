@@ -1,0 +1,130 @@
+{% load static %}
+
+<style>
+    .category-dropdown {
+        top: calc(250px);
+        left: calc(20px);
+        right: calc(400px);
+        position:relative;
+        display:inline-block;
+        width: 100%;
+        max-width: 222px;
+        /* font-weight: lighter; */
+        margin: 1rem auto;
+        font-family: "Roboto Mono", monospace;
+    }
+
+    .dropdown-toggle {
+        background-color: #D9D9D9;
+        color: #0E4809;
+        /* padding: 1rem; */
+        padding: clamp(0.75rem, 1vw, 1rem); /* helps ensure dynamic resizing when zooming in/out */
+        width: 100%;
+        text-align: center;
+        border: solid 3px #A0A680;
+        border-radius: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        /* font-size: 1.2rem; */
+        font-size: clamp(1rem, 1.2vw, 1.2rem);
+        cursor: pointer;
+    }
+
+    .dropdown-toggle:hover {
+        background-color: #e1e1e1;
+    }
+
+    .dropdown-options {
+        max-height: 50vh;
+        overflow-y: auto;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #D9D9D9;
+        border: solid 3px #A0A680;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+        z-index: 10;
+        margin-top: 0.5rem;
+        /* overflow: hidden; */
+    }
+    
+    .dropdown-option {
+        width: 100%;
+        /* padding: 0.8rem 1rem 0.8rem 1rem; */
+        padding: clamp(0.4rem, 0.7vw, 0.8rem) clamp(0.6rem, 1vw, 1rem);    text-align: left;
+        background-color: transparent;
+        border: none;
+        color: #0E4809;
+        font-size: clamp(0.9rem, 1.2vw, 1.1rem);    
+        /* font-size: 1.1rem; */
+        cursor: pointer;
+    }
+    
+    .dropdown-option:hover {
+        background-color: #b8b9b5;
+    }
+    
+    .hidden {
+        display: none;
+    }
+    
+    @media screen and (max-width: 768px) {
+        .category-dropdown {
+            display: none;
+        }
+    }
+
+</style>
+
+<div class="category-dropdown">
+    <button class="dropdown-toggle" onclick="toggleDropdown()">
+        <span id="selected-category">
+            {% if current_category %}
+                {{ current_category.name }}
+            {% else %}
+                Filters - Default Floor
+            {% endif %}
+        </span> &#x25BE;
+    </button>
+
+    <div id="dropdown-options" class="dropdown-options hidden">
+        <button type="button" class="dropdown-option" onclick="selectCategory('', 'Filters - Default Floor')">
+            Default Floor
+        </button>
+
+        {% for category in all_categories %}
+            <button type="button" class="dropdown-option" onclick="selectCategory('{{ category.id }}', '{{ category.name }}')">
+                {{ category.name }}
+            </button>
+        {% endfor %}
+    </div>
+</div>
+
+<form id="category-form" method="GET" action="" style="display: none;">
+    <input type="hidden" name="category" id="selected-category-input">
+</form>
+
+<script>
+    function toggleDropdown() {
+        const dropdown = document.getElementById("dropdown-options");
+        dropdown.classList.toggle("hidden");
+    }
+
+    function selectCategory(id, name) {
+        document.getElementById("selected-category").textContent = name;
+        document.getElementById("selected-category-input").value = id;
+        document.getElementById("category-form").submit();
+    }
+
+    // Close dropdown if clicked outside
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById("dropdown-options");
+        const toggle = document.querySelector(".dropdown-toggle");
+
+        if (!toggle.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.classList.add("hidden");
+        }
+    });
+</script>
+    
