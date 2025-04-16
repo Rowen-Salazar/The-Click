@@ -106,6 +106,52 @@ body {
     object-fit: contain; /* new */
 }
 
+/* Button for Zooming In */
+.in {
+    position: absolute;
+    top: 95%;
+    left: 49%;
+    transform: translate(-100%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #00663f;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3vw; 
+    width: 2.3vw;
+    font-size: 2vw;
+    padding: 1vw 2vw;
+    border: none;
+    border-radius: 0.5vw;
+    cursor: pointer;
+}
+        
+/* Button for Zooming Out */
+.out {
+    position: absolute;
+    top: 95%;
+    left: 51%;
+    transform: translate(0%, -50%);
+    -ms-transform: translate(0%, -50%);
+    background-color: #00663f;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3vw; 
+    width: 2.3vw;
+    font-size: 2vw;
+    padding: 1vw 2vw;
+    border: none;
+    border-radius: 0.5vw;
+    cursor: pointer;
+}
+
+.in:hover, .out:hover{
+  background-color: #018552;
+}
+
 /* .category-dropdown {
     
     position:relative;
