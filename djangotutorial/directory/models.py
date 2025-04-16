@@ -80,7 +80,7 @@ class Location(models.Model):
     name = models.CharField(max_length=500,blank=True, null=True)
     zipcode = models.CharField(max_length=200,blank=True, null=True)
     city = models.CharField(max_length=200,blank=True, null=True)
-    adress = models.CharField(max_length=200,blank=True, null=True)
+    address = models.CharField(max_length=200,blank=True, null=True)
     latitude = models.CharField(max_length=1000, blank=True)
     longitude = models.CharField(max_length=1000, blank=True)
     filter_category = models.ForeignKey(Filter, on_delete=models.CASCADE, null=True)

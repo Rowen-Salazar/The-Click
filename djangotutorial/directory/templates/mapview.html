@@ -34,14 +34,17 @@
 
         .container {
             background-color: #00663F;
-            font-size: 12px;
+            font-size: 15px;
             color: white;
             border-radius: 14px;
             box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.6);
             display: block;
-            position: absolute;
-            top: 170px;
-            left: 25px;
+            position: fixed;
+            top: 160px;
+            /* bottom: 60px; */
+            left: 1.4%;
+            width: 80px;
+            height: 140px;
             padding: 0px 15px 5px 15px; /* top right bottom left */
             cursor: pointer;
             -webkit-user-select: none;
@@ -49,6 +52,11 @@
             -ms-user-select: none;
             user-select: none;
             z-index: 1;
+        }
+
+        .container p {
+            font-size: 18px; 
+            text-align: center;
         }
     </style>
 </head>
@@ -66,22 +74,22 @@
     defer
     ></script>
     
+    <div class="container">
+        <p>FILTERS</p>
+    
+        {% for filters in all_filters %}
+        <div class="group">
+            <input type="checkbox" class="filter_checkbox" id="{{ filters.name }}" value="{{ filters.name}}"/>
+            <label for="{{ filters.name }}">{{ filters.name }} </label>
+        </div>
+        {% endfor %}
+    </div>
+
     <div class="googlemaps">
         
         <gmp-map id="map" center="{{ full_map.center }}" zoom="{{ full_map.zoom }}" map-id="{{ full_map.map_id }}">
 
             <gmp-info-window id="infoWindow" style="--gmp-info-window-offset-y: -10px;"></gmp-info-window>
-            
-            <div class="container">
-                <p style="font-size: 16px; text-align: center; ">FILTERS</p>
-            
-                {% for filters in all_filters %}
-                <div class="group">
-                    <input type="checkbox" class="filter_checkbox" id="{{ filters.name }}" value="{{ filters.name}}" checked/>
-                    <label for="{{ filters.name }}">{{ filters.name }} </label>
-                </div>
-                {% endfor %}
-            </div>
             
             {% for currLoc in all_locations %}
             <div class="markers" data-category="{{ currLoc.filter_category }}">
