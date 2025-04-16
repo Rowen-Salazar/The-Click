@@ -52,7 +52,7 @@ body {
     cursor: grab;
 }
 
-/* Button for Zooming In */
+/* Button for Zooming In
 .in {
     position: absolute;
     top: 95%;
@@ -68,7 +68,7 @@ body {
 }
 
 /* Button for Zooming Out */
-.out {
+/* .out {
     position: absolute;
     top: 95%;
     left: 51%;
@@ -84,7 +84,7 @@ body {
 
 .in:hover, .out:hover{
   background-color: #018552;
-}
+} */
 
 .placeholder-text {
     font-size: 25px;
