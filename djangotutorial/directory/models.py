@@ -40,7 +40,7 @@ class Building(models.Model):
     sidebar_image = models.ImageField(null=True, upload_to='images/buildingSearchBox/')
     def __str__(self):
         return self.display_name
-
+    
 class Filter(models.Model):
     MAP = "Map"
     BUILDING = "Building"
@@ -57,6 +57,24 @@ class Filter(models.Model):
     )
     def __str__(self):
         return self.name
+
+class POIFilter(models.Model):
+    name = models.CharField(max_length=100)
+    # icon = models.ImageField(upload_to="images/POI_Icons/", null=True, blank=True)
+    def __str__(self):
+        return self.name
+
+class BuildingCategoryImage(models.Model):
+    building = models.ForeignKey(Building, on_delete=models.CASCADE)
+    category = models.ForeignKey(POIFilter, on_delete=models.CASCADE)
+    floor = models.IntegerField()
+    image = models.ImageField(upload_to='images/buildingCategoryImages/')
+
+    class Meta:
+        ordering = ['building__display_name', 'floor', 'category__name'] # ensures alphabetical order
+
+    def __str__(self):
+        return f"{self.building.display_name} - Floor {self.floor} ({self.category.name})"
 
 class Location(models.Model):
     name = models.CharField(max_length=500,blank=True, null=True)
