@@ -88,5 +88,12 @@
     {% include "buildingFiltersDropdown.html" %}    
 
 </body>
-
+<script type="module">
+    import {panzoom} from 'https://cdn.jsdelivr.net/gh/cmorillas/panzoom/src/panzoom.js';
+        document.addEventListener("DOMContentLoaded", (e) => {
+            panzoom('#zoomable-image', {
+            bound:'outer'
+        });
+    });
+</script>
 </html>
