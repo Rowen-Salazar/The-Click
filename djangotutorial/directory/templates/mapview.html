@@ -79,7 +79,7 @@
     
         {% for filters in all_filters %}
         <div class="group">
-            <input type="checkbox" class="filter_checkbox" id="{{ filters.name }}" value="{{ filters.name}}" checked/>
+            <input type="checkbox" class="filter_checkbox" id="{{ filters.name }}" value="{{ filters.name}}"/>
             <label for="{{ filters.name }}">{{ filters.name }} </label>
         </div>
         {% endfor %}
@@ -90,17 +90,6 @@
         <gmp-map id="map" center="{{ full_map.center }}" zoom="{{ full_map.zoom }}" map-id="{{ full_map.map_id }}">
 
             <gmp-info-window id="infoWindow" style="--gmp-info-window-offset-y: -10px;"></gmp-info-window>
-            
-            <!-- <div class="container">
-                <p>FILTERS</p>
-            
-                {% for filters in all_filters %}
-                <div class="group">
-                    <input type="checkbox" class="filter_checkbox" id="{{ filters.name }}" value="{{ filters.name}}" checked/>
-                    <label for="{{ filters.name }}">{{ filters.name }} </label>
-                </div>
-                {% endfor %}
-            </div> -->
             
             {% for currLoc in all_locations %}
             <div class="markers" data-category="{{ currLoc.filter_category }}">
