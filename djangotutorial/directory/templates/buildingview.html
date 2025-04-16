@@ -5,31 +5,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UNT Map Directory</title>
+    <link rel="stylesheet" href="{% static 'css/buildingview.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap">
+    <script src="{% static 'js/zoom.js' %}" defer></script>
+
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #708A70;
-            padding-top: 60px;
+        /* Button for Zooming In */
+        .in {
+            position: absolute;
+            top: 95%;
+            left: 49%;
+            transform: translate(-100%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            background-color: #00663f;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 3vw; 
+            width: 2.3vw;
+            font-size: 2vw;
+            padding: 1vw 2vw;
+            border: none;
+            border-radius: 0.5vw;
+            cursor: pointer;
+        }
+        
+        /* Button for Zooming Out */
+        .out {
+            position: absolute;
+            top: 95%;
+            left: 51%;
+            transform: translate(0%, -50%);
+            -ms-transform: translate(0%, -50%);
+            background-color: #00663f;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 3vw; 
+            width: 2.3vw;
+            font-size: 2vw;
+            padding: 1vw 2vw;
+            border: none;
+            border-radius: 0.5vw;
+            cursor: pointer;
+        }
+        
+        .in:hover, .out:hover{
+          background-color: #018552;
         }
     </style>
 </head>
 <body>
     {% include "navbar.html" %}
-
-    <div class="content">
-        <h1>Building Page</h1>
-        <p>:)</p>
-    </div>
     
     {% include "buildingsidebar.html" %}
 
-    <p style="text-align: center;">View of Building Specifics</p>
+    <!-- Pre-loaded Building Floor Plan Display (always first floor) -->
+    {% if full_building %}
+        <h1 class="building-name">{{ full_building.display_name }}</h1>
+    {% endif %}
 
-    <p style="text-align: center;"><a href="http://127.0.0.1:8000/" style="color:#2761b7">Back</a></p>
+    <div class="floorplan-container">
+        <div class="floorplan-wrapper">
+            {% if category_image %}
+                <img id="zoomable-image" src="{{ category_image.image.url }}" alt="Category-specific floor image">
+                <button class="in" onclick="zoomIn()">+</button>
+                <button class="out" onclick="zoomOut()">-</button>
+            {% elif full_building.floor_1 %}
+                <img id="zoomable-image" src="{{ full_building.floor_1.url }}" alt="Default floor image">
+                <button class="in" onclick="zoomIn()">+</button>
+                <button class="out" onclick="zoomOut()">-</button>
+            {% else %}
+                <p class="placeholder-text">Please select a building from the building sidebar to view :)</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    {% include "buildingFiltersDropdown.html" %}    
 
 </body>
+
 </html>
