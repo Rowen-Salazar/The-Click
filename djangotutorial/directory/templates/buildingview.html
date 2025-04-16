@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap">
-
+    <script src="{% static 'js/zoom.js' %}" defer></script>
 </head>
 <body>
     {% include "navbar.html" %}
@@ -27,6 +27,8 @@
                 <img id="zoomable-image" src="{{ category_image.image.url }}" alt="Category-specific floor image">
             {% elif full_building.floor_1 %}
                 <img id="zoomable-image" src="{{ full_building.floor_1.url }}" alt="Default floor image">
+                <button class="in" onclick="zoomIn()">+</button>
+                <button class="out" onclick="zoomOut()">-</button>
             {% else %}
                 <p class="placeholder-text">No image available for this floor.</p>
             {% endif %}
