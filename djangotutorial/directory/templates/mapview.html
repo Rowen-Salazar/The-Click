@@ -117,7 +117,7 @@
     </div>
 
 
-    <script>
+    <script type="module">
         //const {InfoWindow} = await google.maps.importLibrary("maps");
         document.addEventListener("DOMContentLoaded", function () {
             const checkboxes = document.querySelectorAll(".filter_checkbox");
@@ -141,7 +141,7 @@
             });
 
             ////////////////////////////stuff in progress/////////////////////////////////////
-            const infoWindow = new InfoWindow();
+            //const infoWindow = new InfoWindow();
             const markers = document.querySelectorAll("gmp-advanced-marker");
             markers.forEach(marker => {
                 marker.addEventListener("gmp-click", (domEvent, latLng) => {
