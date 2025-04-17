@@ -31,27 +31,40 @@ def buildingview(request, building_name):
     selected_category_id = request.GET.get("category")
     building_list = Building.objects.all() # this makes sure building sidebar content always loads
     
+    selected_floor = request.GET.get("floor")  # Can use this for floor select --> here for my testing
+
     current_category = None
     category_image = None
+
     if selected_category_id:
         try:
             current_category = POIFilter.objects.get(id=selected_category_id)
-            # Try ground floor first (in admin: Floor 0 = Ground Floor)
-            try:
+
+        # If a specific floor is selected (use parts of this for floor select --> can edit as needed, just threw this in for my testing)
+            if selected_floor:
+                is_ground = selected_floor.lower() == "ground"
+                floor_number = 0 if is_ground else int(selected_floor)
+
                 category_image = BuildingCategoryImage.objects.get(
-                    building=full_building, category=current_category, is_ground_floor=True
+                    building=full_building,
+                    category=current_category,
+                    is_ground_floor=is_ground,
+                    floor=None if is_ground else floor_number
                 )
-            except BuildingCategoryImage.DoesNotExist:
-                # Fallback to floor 1 if not ground floor
+            else:
+                # Default to floor 1 category image
                 category_image = BuildingCategoryImage.objects.get(
-                    building=full_building, floor=1, category=current_category, is_ground_floor=False
+                    building=full_building,
+                    category=current_category,
+                    is_ground_floor=False,
+                    floor=1
                 )
-        except (POIFilter.DoesNotExist, BuildingCategoryImage.DoesNotExist):
+        except (POIFilter.DoesNotExist, BuildingCategoryImage.DoesNotExist, ValueError):
             category_image = None
 
     context = {
         'full_building': full_building,
-        'building_list': building_list, # this makes sure building sidebar content always loads
+        'building_list': building_list, # This makes sure building sidebar content always loads
         'all_categories': all_categories,
         'selected_category_id': int(selected_category_id) if selected_category_id else None,
         'category_image': category_image,
