@@ -58,6 +58,25 @@
             font-size: 18px; 
             text-align: center;
         }
+        #infowindow {
+            background-color: #D2D4C4;
+            border-radius: 8px;
+            padding: 10px;
+            width: 250px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            color: #00663F;
+            top: -160px;
+            position: fixed;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.6);
+            position: fixed;
+            left:-930px;
+            z-index: 2;
+        }
+        #infowindow strong{
+            font-size: 18px;
+
+        }
     </style>
 </head>
 <body>
@@ -89,7 +108,7 @@
         
         <gmp-map id="map" center="{{ full_map.center }}" zoom="{{ full_map.zoom }}" map-id="{{ full_map.map_id }}">
 
-            <gmp-info-window id="infoWindow" style="--gmp-info-window-offset-y: -10px;"></gmp-info-window>
+            <gmp-info-window id="infoWindow"></gmp-info-window>
             
             {% for currLoc in all_locations %}
             <div class="markers" data-category="{{ currLoc.filter_category }}">
@@ -98,6 +117,9 @@
                 position="{{ currLoc.latitude }}, {{ currLoc.longitude }}"
                 title="{{ currLoc.name }}"
                 category="{{ currLoc.filter_category }}"
+                data-zip="{{ currLoc.zipcode }}"
+                data-address="{{ currLoc.address }}"
+                data-city="{{ currLoc.city }}"
                 ></gmp-advanced-marker>
                 
             </div>
@@ -107,7 +129,30 @@
 
 
     <script type="module">
-        //const {InfoWindow} = await google.maps.importLibrary("maps");
+        ////////////////////////////stuff in progress/////////////////////////////////////
+        const markers = document.querySelectorAll("gmp-advanced-marker");
+            markers.forEach(marker => {
+                marker.addEventListener("gmp-click", (domEvent, latLng) => {
+                    const pos = marker.getAttribute("position");
+                    const title = marker.getAttribute("title");
+                    const category = marker.getAttribute("category");
+                    const zipcode = marker.getAttribute("data-zip");
+                    const address = marker.getAttribute("data-address");
+                    const city = marker.getAttribute("data-city");
+
+                    infoWindow.innerHTML = `
+                        <div id="infowindow" class="windowContent">
+                            <strong>${title}</strong><br/>
+                            Category: ${category}<br/>
+                            Address: ${address}<br/>
+                            Zip code: ${zipcode}<br/>
+                            City: ${city}
+                        </div>
+                    `;
+                    infoWindow.setAttribute("open", "true");
+                });
+            });
+        //////////////////////////////stuff working/////////////////////////////////////
         document.addEventListener("DOMContentLoaded", function () {
             const checkboxes = document.querySelectorAll(".filter_checkbox");
             const markerWrap = document.querySelectorAll(" .markers ");
@@ -129,28 +174,11 @@
                 checkbox.addEventListener("change", updateMarkers);
             });
 
-            ////////////////////////////stuff in progress/////////////////////////////////////
-            //const infoWindow = new InfoWindow();
-            const markers = document.querySelectorAll("gmp-advanced-marker");
-            markers.forEach(marker => {
-                marker.addEventListener("gmp-click", (domEvent, latLng) => {
-                    const pos = marker.getAttribute("position");
-                    const title = marker.getAttribute("title");
-                    const category = marker.getAttribute("category");
-
-                    //infoWindow.innerHTML = `<div><strong>${title}</strong><br/>Category: ${category}</div>`;
-                    infoWindow.close();
-                    infoWindow.setContent(title);
-                    infoWindow.open = true;
-                    //infoWindow.anchor = marker;
-                });
-            });
-            ////////////////////////////stuff in progress/////////////////////////////////////            
-
             updateMarkers();
         });
 
     </script>
+
     <!--<script>
         document.addEventListener("DOMContentLoaded", async () => {
 
