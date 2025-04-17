@@ -36,9 +36,16 @@ def buildingview(request, building_name):
     if selected_category_id:
         try:
             current_category = POIFilter.objects.get(id=selected_category_id)
-            category_image = BuildingCategoryImage.objects.get(
-                building=full_building, floor=1, category=current_category
-            )
+            # Try ground floor first (in admin: Floor 0 = Ground Floor)
+            try:
+                category_image = BuildingCategoryImage.objects.get(
+                    building=full_building, category=current_category, is_ground_floor=True
+                )
+            except BuildingCategoryImage.DoesNotExist:
+                # Fallback to floor 1 if not ground floor
+                category_image = BuildingCategoryImage.objects.get(
+                    building=full_building, floor=1, category=current_category, is_ground_floor=False
+                )
         except (POIFilter.DoesNotExist, BuildingCategoryImage.DoesNotExist):
             category_image = None
 
