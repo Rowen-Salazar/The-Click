@@ -34,14 +34,17 @@
 
         .container {
             background-color: #00663F;
-            font-size: 12px;
+            font-size: 15px;
             color: white;
             border-radius: 14px;
             box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.6);
             display: block;
-            position: absolute;
-            top: 170px;
-            left: 25px;
+            position: fixed;
+            top: 160px;
+            /* bottom: 60px; */
+            left: 1.4%;
+            width: 80px;
+            height: 140px;
             padding: 0px 15px 5px 15px; /* top right bottom left */
             cursor: pointer;
             -webkit-user-select: none;
@@ -50,118 +53,137 @@
             user-select: none;
             z-index: 1;
         }
+
+        .container p {
+            font-size: 18px; 
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     {% include "navbar.html" %}
-
-    <!-- <div class="pageholder">
-        <div class="titleholder"> Google Maps API Display</div>
-    </div> -->
-
-    <!-- <div class="content">
-        <h1>Building Page</h1>
-        <p>:)</p>
-    </div> -->
     
     {% include "buildingsidebar.html" %}
+    
+    <!----------------------------------------------------------------------------------------------------------
+    <script type="module" src="https://unpkg.com/@googlemaps/extended-component-library"></script>
+    ----------------------------------------------------------------------------------------------------------->
+
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWl8uFZQTCMxBy8MNe8YaPDlelX6No4LI&callback=initMap&v=beta&libraries=marker,places&loading=async"
+    defer
+    ></script>
+    
+    <div class="container">
+        <p>FILTERS</p>
+    
+        {% for filters in all_filters %}
+        <div class="group">
+            <input type="checkbox" class="filter_checkbox" id="{{ filters.name }}" value="{{ filters.name}}"/>
+            <label for="{{ filters.name }}">{{ filters.name }} </label>
+        </div>
+        {% endfor %}
+    </div>
 
     <div class="googlemaps">
-        <gmp-map center="{{ full_map.center }}" zoom="{{ full_map.zoom }}" map-id="{{ full_map.map_id }}">
-    
+        
+        <gmp-map id="map" center="{{ full_map.center }}" zoom="{{ full_map.zoom }}" map-id="{{ full_map.map_id }}">
+
+            <gmp-info-window id="infoWindow" style="--gmp-info-window-offset-y: -10px;"></gmp-info-window>
+            
             {% for currLoc in all_locations %}
+            <div class="markers" data-category="{{ currLoc.filter_category }}">
                 <gmp-advanced-marker
                 gmp-clickable="true" 
                 position="{{ currLoc.latitude }}, {{ currLoc.longitude }}"
                 title="{{ currLoc.name }}"
                 category="{{ currLoc.filter_category }}"
                 ></gmp-advanced-marker>
-            {% endfor %}
-        
+                
+            </div>
+            {% endfor %} 
         </gmp-map>
     </div>
+
+
+    <script type="module">
+        //const {InfoWindow} = await google.maps.importLibrary("maps");
+        document.addEventListener("DOMContentLoaded", function () {
+            const checkboxes = document.querySelectorAll(".filter_checkbox");
+            const markerWrap = document.querySelectorAll(" .markers ");
+
+            function updateMarkers() {
+                const activeFilters = new Set(
+                    Array.from(checkboxes)
+                        .filter(checkbox => checkbox.checked)
+                        .map(checkbox => checkbox.value)
+                );
+
+                markerWrap.forEach(marker => {
+                    const category = marker.dataset.category;
+                    marker.style.display = activeFilters.has(category) ? "block" : "none";
+                });
+            }
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener("change", updateMarkers);
+            });
+
+            ////////////////////////////stuff in progress/////////////////////////////////////
+            //const infoWindow = new InfoWindow();
+            const markers = document.querySelectorAll("gmp-advanced-marker");
+            markers.forEach(marker => {
+                marker.addEventListener("gmp-click", (domEvent, latLng) => {
+                    const pos = marker.getAttribute("position");
+                    const title = marker.getAttribute("title");
+                    const category = marker.getAttribute("category");
+
+                    //infoWindow.innerHTML = `<div><strong>${title}</strong><br/>Category: ${category}</div>`;
+                    infoWindow.close();
+                    infoWindow.setContent(title);
+                    infoWindow.open = true;
+                    //infoWindow.anchor = marker;
+                });
+            });
+            ////////////////////////////stuff in progress/////////////////////////////////////            
+
+            updateMarkers();
+        });
+
+    </script>
+    <!--<script>
+        document.addEventListener("DOMContentLoaded", async () => {
+
+            const context = document.querySelector('gmpx-place-picker');
+            const mapHtml = document.querySelector('gmp-map');
+
+            context.addEventListener('gmpx-placechange', (e) => {
+                if (!e.detail?.place?.geometry?.location) {
+                    console.error("Invalid place data:", e.detail);
+                    return;
+                }
+                const location = e.detail.place.geometry.location;
+                const currLoc = {
+                    lat: place.geometry.location.lat,
+                    lng: place.geometry.location.lng
+                }
+
+                //const place = e.detail.place;
+
+                mapHtml.center = '${currLoc.lat}, ${currLoc.lng}';
+                mapHtml.zoom = 15;
+                console.log("New center:", mapHtml.center);
+            });
+        });
+    </script>-->
     
-    <div class="container">
-        <p style="font-size: 16px; text-align: center;">FILTERS</p>
     
-        {% for filters in all_filters %}
-        <div class="group">
-            <input type="checkbox" id="{{ filters.name }}"/>
-            <label for="{{ filters.name }}">{{ filters.name }} </label>
-        </div>
-        {% endfor %}
-    </div>
 
     <p style="text-align: center;"><a href="http://127.0.0.1:8000/" style="color:#2761b7">Back</a></p>
 
 </body>
 
-<script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWl8uFZQTCMxBy8MNe8YaPDlelX6No4LI&callback=initMap&v=beta&libraries=marker&loading=async"
-    defer
-></script>
+
 
 </html>
 
-
-
-
- <!--                              *stuff in progress - josh*
-<style>
-    #map{
-        height: 600px;
-        width: 1000px;
-    }
-</style>
-
-<<div id="map"></div>
-
-<script id="location_data" type="application/json">
-    {% for currLoc in all_locations %}
-        { "name": "{{ currLoc.name }}", lat: {{ currLoc.latitude }}, lng: {{ currLoc.longitude }} },
-    {% endfor %}
-</script>
-
-<ul>
-    {% for currLoc in all_locations %}
-        <li data-latitude="{{ currLoc.latitude }}"
-            data-longitude="{{ currLoc.longitude }}"
-            data-name="{{ currLoc.name }}">
-        </li>
-    {% endfor %}
-</ul>
-
-<div id="location_details"></div>
-
-<script>
-    function initMap(){
-        const map = new google.maps.Map(document.getElementById("map"), {
-            center: {lat: 33.21099225203791, lng: -97.14775843454004},
-            zoom: 17,
-        });
-        
-        let locationData = document.querySelectorAll('li');
-        let container = document.getElementById('location_details')
-        locationData.forEach(location=> {
-            addDetails(container, location);
-        });
-
-        function addDetails(container, currLoc) {
-            let data = currLoc.dataset
-            addMarkers(data)
-        }
-
-        function addMarkers(currLoc) {
-            const marker = new AdvancedMarkerElement({
-                map,
-                position: { lat: currLoc.latitude, lng: currLoc.longitude },
-                title: currLoc.name,
-            })
-        }
-        
-    }
-</script>
--->
-
-
-<!--working stuff below - josh-->

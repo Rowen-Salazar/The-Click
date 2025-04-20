@@ -75,12 +75,13 @@
                 <img id="zoomable-image" src="{{ category_image.image.url }}" alt="Category-specific floor image">
                 <button class="in" onclick="zoomIn()">+</button>
                 <button class="out" onclick="zoomOut()">-</button>
+            <!-- changing floor_1 to floor_2, floor_3, etc or to ground_floor will change the image that pre loads on the page -->
             {% elif full_building.floor_1 %}
                 <img id="zoomable-image" src="{{ full_building.floor_1.url }}" alt="Default floor image">
                 <button class="in" onclick="zoomIn()">+</button>
                 <button class="out" onclick="zoomOut()">-</button>
             {% else %}
-                <p class="placeholder-text">No image available for this floor.</p>
+                <p class="placeholder-text">Please select a building from the building sidebar to view :)</p>
             {% endif %}
         </div>
     </div>
@@ -88,5 +89,12 @@
     {% include "buildingFiltersDropdown.html" %}    
 
 </body>
-
+<script type="module">
+    import {panzoom} from 'https://cdn.jsdelivr.net/gh/cmorillas/panzoom/src/panzoom.js';
+        document.addEventListener("DOMContentLoaded", (e) => {
+            panzoom('#zoomable-image', {
+            bound:'outer'
+        });
+    });
+</script>
 </html>

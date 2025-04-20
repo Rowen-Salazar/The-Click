@@ -87,11 +87,22 @@ body {
 } */
 
 .placeholder-text {
+    font-family: "Montserrat";
     font-size: 25px;
     font-weight: bold;
     color: #0E4809;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;    
     padding: 80px;
+}
+
+.placeholder-text p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .floorplan-wrapper {

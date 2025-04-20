@@ -69,18 +69,20 @@ class BuildingCategoryImage(models.Model):
     category = models.ForeignKey(POIFilter, on_delete=models.CASCADE)
     floor = models.IntegerField()
     image = models.ImageField(upload_to='images/buildingCategoryImages/')
+    is_ground_floor = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['building__display_name', 'floor', 'category__name'] # ensures alphabetical order
 
     def __str__(self):
-        return f"{self.building.display_name} - Floor {self.floor} ({self.category.name})"
-
+        floor_label = "Ground Floor" if self.is_ground_floor else f"Floor {self.floor}"
+        return f"{self.building.display_name} - {floor_label} ({self.category.name})"
+    
 class Location(models.Model):
     name = models.CharField(max_length=500,blank=True, null=True)
     zipcode = models.CharField(max_length=200,blank=True, null=True)
     city = models.CharField(max_length=200,blank=True, null=True)
-    adress = models.CharField(max_length=200,blank=True, null=True)
+    address = models.CharField(max_length=200,blank=True, null=True)
     latitude = models.CharField(max_length=1000, blank=True)
     longitude = models.CharField(max_length=1000, blank=True)
     filter_category = models.ForeignKey(Filter, on_delete=models.CASCADE, null=True)
