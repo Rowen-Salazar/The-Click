@@ -85,13 +85,13 @@
     {% include "buildingsidebar.html" %}
     
     <!----------------------------------------------------------------------------------------------------------
-    <script type="module" src="https://unpkg.com/@googlemaps/extended-component-library"></script>
-    ----------------------------------------------------------------------------------------------------------->
-
     <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWl8uFZQTCMxBy8MNe8YaPDlelX6No4LI&callback=initMap&v=beta&libraries=marker,places&loading=async"
     defer
     ></script>
+    ----------------------------------------------------------------------------------------------------------->
+    
+    <script type="module" src="https://unpkg.com/@googlemaps/extended-component-library"></script>
     
     <div class="container">
         <p>FILTERS</p>
@@ -104,29 +104,33 @@
         {% endfor %}
     </div>
 
-    <div class="googlemaps">
-        
-        <gmp-map id="map" center="{{ full_map.center }}" zoom="{{ full_map.zoom }}" map-id="{{ full_map.map_id }}">
+    <gmpx-api-loader key="AIzaSyCWl8uFZQTCMxBy8MNe8YaPDlelX6No4LI" libraries="places">
+        <gmpx-map-context id="myMap">
+            <div class="googlemaps">
+                <gmpx-place-picker for="map" search-box="true"></gmpx-place-picker>
+                <gmp-map id="map" center="{{ full_map.center }}" zoom="{{ full_map.zoom }}" map-id="{{ full_map.map_id }}">
 
-            <gmp-info-window id="infoWindow"></gmp-info-window>
-            
-            {% for currLoc in all_locations %}
-            <div class="markers" data-category="{{ currLoc.filter_category }}">
-                <gmp-advanced-marker
-                gmp-clickable="true" 
-                position="{{ currLoc.latitude }}, {{ currLoc.longitude }}"
-                title="{{ currLoc.name }}"
-                category="{{ currLoc.filter_category }}"
-                data-zip="{{ currLoc.zipcode }}"
-                data-address="{{ currLoc.address }}"
-                data-city="{{ currLoc.city }}"
-                ></gmp-advanced-marker>
+                    <gmp-info-window id="infoWindow"></gmp-info-window>
+                    
+                    {% for currLoc in all_locations %}
+                    <div class="markers" data-category="{{ currLoc.filter_category }}">
+                        <gmp-advanced-marker
+                        gmp-clickable="true" 
+                        position="{{ currLoc.latitude }}, {{ currLoc.longitude }}"
+                        title="{{ currLoc.name }}"
+                        category="{{ currLoc.filter_category }}"
+                        data-zip="{{ currLoc.zipcode }}"
+                        data-address="{{ currLoc.address }}"
+                        data-city="{{ currLoc.city }}"
+                        ></gmp-advanced-marker>
+                        
+                    </div>
+                    {% endfor %} 
+                </gmp-map>
                 
             </div>
-            {% endfor %} 
-        </gmp-map>
-    </div>
-
+        </gmpx-map-context>
+    </gmpx-api-loader>
 
     <script type="module">
         ////////////////////////////stuff in progress/////////////////////////////////////
