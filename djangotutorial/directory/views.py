@@ -36,11 +36,34 @@ def buildingview(request, building_name):
     current_category = None
     category_image = None
 
+    default_floor_image = None # NEW
+
+    # NEW ---------------
+    # Detect which floors exist for this building
+    available_floors = []
+    if full_building.ground_floor:
+        available_floors.append("Ground")
+    for i in range(1, 8):
+        floor_attr = f'floor_{i}'
+        if getattr(full_building, floor_attr):
+            available_floors.append(str(i))
+    
+    # Always set the default floor image based on selected floor (fallback for when no category is selcted)
+    if selected_floor:
+        if selected_floor.lower() == "ground":
+            default_floor_image = full_building.ground_floor
+        else:
+            floor_attr = f'floor_{selected_floor}'
+            default_floor_image = getattr(full_building, floor_attr, None)
+    else:
+        default_floor_image = full_building.floor_1
+    # NEW --------------
+
     if selected_category_id:
         try:
             current_category = POIFilter.objects.get(id=selected_category_id)
 
-        # If a specific floor is selected (use parts of this for floor select --> can edit as needed, just threw this in for my testing)
+            # If a specific floor is selected (use parts of this for floor select --> can edit as needed, just threw this in for my testing)
             if selected_floor:
                 is_ground = selected_floor.lower() == "ground"
                 floor_number = 0 if is_ground else int(selected_floor)
@@ -48,15 +71,16 @@ def buildingview(request, building_name):
                 category_image = BuildingCategoryImage.objects.get(
                     building=full_building,
                     category=current_category,
-                    is_ground_floor=is_ground,
-                    floor=None if is_ground else floor_number
+                    floor=floor_number
+                    # is_ground_floor=is_ground,
+                    # floor=None if is_ground else floor_number
                 )
             else:
                 # Default to floor 1 category image
                 category_image = BuildingCategoryImage.objects.get(
                     building=full_building,
                     category=current_category,
-                    is_ground_floor=False,
+                    # is_ground_floor=False,
                     floor=1
                 )
         except (POIFilter.DoesNotExist, BuildingCategoryImage.DoesNotExist, ValueError):
@@ -69,6 +93,9 @@ def buildingview(request, building_name):
         'selected_category_id': int(selected_category_id) if selected_category_id else None,
         'category_image': category_image,
         'current_category': current_category,
+        'available_floors': available_floors,       # NEW
+        'selected_floor': selected_floor,           # NEW
+        'default_floor_image': default_floor_image, # NEW
     }
 
     return render(request, 'buildingview.html', context)
