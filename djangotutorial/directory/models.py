@@ -77,7 +77,7 @@ class BuildingCategoryImage(models.Model):
     def __str__(self):
         floor_label = "Ground Floor" if self.is_ground_floor else f"Floor {self.floor}"
         return f"{self.building.display_name} - {floor_label} ({self.category.name})"
-    
+
 class Location(models.Model):
     name = models.CharField(max_length=500,blank=True, null=True)
     zipcode = models.CharField(max_length=200,blank=True, null=True)
