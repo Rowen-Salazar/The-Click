@@ -1,1 +1,1 @@
-web: gunicorn untdirectory.wsgi
+web: gunicorn djangotutorial.wsgi:apllication --log-file -

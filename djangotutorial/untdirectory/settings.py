@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import django_heroku
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +27,8 @@ SECRET_KEY = 'i-823(ox2en*013ehi23lbz1(*#2lbhr09@U*ijE02jdio;wqnd=0Q@P892d3ji-jq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['untdirectory-e2a68cbfac4c.herokuapp.com', '.localhost', '127.0.0.1']
+# ALLOWED_HOSTS = ['untdirectory-e2a68cbfac4c.herokuapp.com', '.localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -125,6 +128,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'directory/static'),
 )
+django_heroku.settings(locals())
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
