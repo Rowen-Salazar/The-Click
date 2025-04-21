@@ -36,7 +36,7 @@ def buildingview(request, building_name):
     current_category = None
     category_image = None
 
-    default_floor_image = None # NEW
+    default_floor_image = None # FL
 
     # NEW ---------------
     # Detect which floors exist for this building
