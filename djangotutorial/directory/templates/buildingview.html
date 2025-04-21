@@ -154,7 +154,6 @@
 
     <div class="controls-wrapper"> <!-- wrapper div to align both dropdowns. keeps one from messing with the others location -->
         <!-- NEW -->
-        {% if available_floors %}
         <form method="get" id="floor-filter-form">
             {% if selected_category_id %}
                 <input type="hidden" name="category" value="{{ selected_category_id }}">
@@ -163,18 +162,23 @@
                 <button type="button" onclick="toggleFloorDropdown()">Select Floor:</button>
             
                 <div id="floor-dropdown-container" style="display: none; margin-top: 10px;">
-                <label for="floor-select"></label>
-                <select id="floor-select" name="floor" onchange="document.getElementById('floor-filter-form').submit()">
-                    {% for floor in available_floors %}
-                        <option value="{{ floor }}" {% if selected_floor == floor %}selected{% endif %}>
-                            {% if floor == "Ground" %}Ground Floor{% else %}Floor {{ floor }}{% endif %}
-                        </option>
-                    {% endfor %}
-                </select>
+                    <label for="floor-select"></label>
+                    <select id="floor-select" name="floor" 
+                        {% if not available_floors %}disabled{% endif %} 
+                        onchange="document.getElementById('floor-filter-form').submit()">
+                        {% if available_floors %}
+                            {% for floor in available_floors %}
+                                <option value="{{ floor }}" {% if selected_floor == floor %}selected{% endif %}>
+                                    {% if floor == "Ground" %}Ground Floor{% else %}Floor {{ floor }}{% endif %}
+                                </option>
+                            {% endfor %}
+                        {% else %}
+                            <option>No floors available</option>
+                        {% endif %}
+                    </select>
+                </div>
             </div>
-        </div>
-        </form>
-        {% endif %}
+        </form>        
         <!-- NEW -->
 
         {% include "buildingFiltersDropdown.html" %}  
