@@ -57,6 +57,89 @@
         .in:hover, .out:hover{
           background-color: #018552;
         }
+
+        .controls-wrapper
+        {
+            position: relative;
+            display: inline-block;
+            top: calc(70px);
+            left: calc(11px);
+            right: calc(400px); 
+            
+            gap: 0.02rem; /* space between floor and category dropdown */
+            margin: 1rem 0 0 5px;
+            max-width: 229px; 
+        }
+        
+        .fldropdown
+        {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px;
+            background-color: #D9D9D9;
+            border: solid 3px #A0A680;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+            
+        }
+
+        .fldropdown button
+        {
+            padding: 8px 16px;
+            width: 100%;
+            color: #0E4809;
+            background-color: #D9D9D9;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            font-size: clamp(1rem, 1.2vw, 1.2rem);
+            text-align: center;
+
+        }
+
+        .fldropdown button:hover
+        {
+            background-color: #0056b3;
+        }
+
+        #floor-select
+        {
+            /*display: none;
+            position: absolute;
+            background-color: #D9D9D9;
+            max-width: 229px;
+            border: solid 3px #A0A680;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            /* top: calc(70px);
+            left: calc(11px);
+            right: calc(400px); 
+            margin: 0;
+            padding: 5px;
+            font-size: 1rem;
+            width: 100%;
+            */
+            
+            padding: 6px 12px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+/* Label styling */
+        #floor-dropdown-container label
+        {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* NEW */
     </style>
 </head>
 <body>
@@ -69,6 +152,34 @@
         <h1 class="building-name">{{ full_building.display_name }}</h1>
     {% endif %}
 
+    <div class="controls-wrapper"> <!-- wrapper div to align both dropdowns. keeps one from messing with the others location -->
+        <!-- NEW -->
+        {% if available_floors %}
+        <form method="get" id="floor-filter-form">
+            {% if selected_category_id %}
+                <input type="hidden" name="category" value="{{ selected_category_id }}">
+            {% endif %}
+            <div class="fldropdown">
+                <button type="button" onclick="toggleFloorDropdown()">Select Floor:</button>
+            
+                <div id="floor-dropdown-container" style="display: none; margin-top: 10px;">
+                <label for="floor-select"></label>
+                <select id="floor-select" name="floor" onchange="document.getElementById('floor-filter-form').submit()">
+                    {% for floor in available_floors %}
+                        <option value="{{ floor }}" {% if selected_floor == floor %}selected{% endif %}>
+                            {% if floor == "Ground" %}Ground Floor{% else %}Floor {{ floor }}{% endif %}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        </form>
+        {% endif %}
+        <!-- NEW -->
+
+        {% include "buildingFiltersDropdown.html" %}  
+    </div>
+
     <div class="floorplan-container">
         <div class="floorplan-wrapper">
             {% if category_image %}
@@ -76,8 +187,8 @@
                 <button class="in" onclick="zoomIn()">+</button>
                 <button class="out" onclick="zoomOut()">-</button>
             <!-- changing floor_1 to floor_2, floor_3, etc or to ground_floor will change the image that pre loads on the page -->
-            {% elif full_building.floor_1 %}
-                <img id="zoomable-image" src="{{ full_building.floor_1.url }}" alt="Default floor image">
+<!-- NEW -->{% elif default_floor_image %}
+                <img id="zoomable-image" src="{{ default_floor_image.url }}" alt="Default floor image">
                 <button class="in" onclick="zoomIn()">+</button>
                 <button class="out" onclick="zoomOut()">-</button>
             {% else %}
@@ -86,8 +197,6 @@
         </div>
     </div>
     
-    {% include "buildingFiltersDropdown.html" %}    
-
 </body>
 <script type="module">
     import {panzoom} from 'https://cdn.jsdelivr.net/gh/cmorillas/panzoom/src/panzoom.js';
@@ -97,4 +206,12 @@
         });
     });
 </script>
+
+<script>
+    function toggleFloorDropdown() {
+        const dropdown = document.getElementById("floor-dropdown-container");
+        dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+    }
+</script>
+
 </html>

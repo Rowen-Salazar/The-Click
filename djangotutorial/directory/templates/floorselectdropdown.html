@@ -1,0 +1,99 @@
+{% load static %}
+
+<style>
+    .floorleveldropdown
+    {
+
+    }
+
+    .leveltoggle
+    {
+
+    }
+
+    .leveltoggle:hover
+    {
+        background-color: dodgerblue; 
+    }
+
+    .floorleveloptions
+    {
+        
+    }
+
+    .floorleveloptions:hover
+    {
+        background-color: lavender;
+    }
+</style>
+
+<div class="floorleveldropdown">
+    <button class ="leveltoggle" onclick ="toggleLevelSelect()"
+        <span id="selected-floorlevel">
+            {% if current_floorlevel %}
+                {{ current_floorlevel }}
+            {% else %}
+                Select Floor Level
+            {% endif %}
+        </span> &#x25BE;
+    </button>
+
+    <div id="floorleveloptions" class="floorleveloptionsh">
+        {% if full_building.slug == 'dp' %}
+            <!-- Hardcoded options for Discovery Park -->
+            <button type="button" class="floption" onclick="selectFloorLevel('Floor 1 Section 1')">
+                Floor 1 Section 1
+            </button>
+            <button type="button" class="floption" onclick="selectFloorLevel('Floor 1 Section 2')">
+                Floor 1 Section 2
+            </button>
+            <button type="button" class="floption" onclick="selectFloorLevel('Floor 2 Section 1')">
+                Floor 2 Section 1
+            </button>
+            <button type="button" class="floption" onclick="selectFloorLevel('Floor 2 Section 2')">
+                Floor 2 Section 2
+            </button>
+
+        {% else %}
+            <!-- Dynamic options for other buildings
+           <button type="button" class="floption" onclick="selectFloorLevel('Ground Floor')">
+                Ground Floor
+            </button> -->
+            {% for i in floor_range %}
+                <button type="button" class="floption" onclick="selectFloorLevel('Floor {{ i }}')">
+                    Floor {{ i }}
+                </button>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+<form id="floorlevelform" action="" method="get">
+    <input type="hidden" id="selectedfloorinput" name="floor" value="">
+</form>
+
+<script>
+    function toggleLevelSelect()
+    {
+        const options = document.getElementById("floorleveloptions");
+        options.classList.toggle("hidden")
+    }
+
+    function selectFloorLevel(label)
+    {
+        document.getElementById("selectedfloorlevel").textContent = label;
+        document.getElementById("selectedfloorinput").value = label;
+        document.getElementById("floorlevelform").submit();
+    }
+
+    document.addEventListener('click', function(event)
+    {
+        const levelDropdown = document.getElementById("floorleveloptions");
+        const levelToggle = document.querySelector(".leveltoggle");
+
+        if(!levelToggle.contains(event.target) && !levelDropdown.contains(event.target))
+        {
+            levelDropdown.classList.add("hidden");
+        }
+    });
+</script>
