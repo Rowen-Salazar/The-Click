@@ -91,32 +91,32 @@
     ></script>
     ----------------------------------------------------------------------------------------------------------->
     
-    <script type="module" src="https://unpkg.com/@googlemaps/extended-component-library"></script>
+    <script type="module" src="https://unpkg.com/@googlemaps/extended-component-library"></script> <!--api library script-->
     
     <div class="container">
         <p>FILTERS</p>
     
         {% for filters in all_filters %}
         <div class="group">
-            <input type="checkbox" class="filter_checkbox" id="{{ filters.name }}" value="{{ filters.name}}"/>
+            <input type="checkbox" class="filter_checkbox" id="{{ filters.name }}" value="{{ filters.name}}"/> <!--filter checkbox-->
             <label for="{{ filters.name }}">{{ filters.name }} </label>
         </div>
         {% endfor %}
     </div>
 
-    <gmpx-api-loader key="AIzaSyCWl8uFZQTCMxBy8MNe8YaPDlelX6No4LI" libraries="places">
+    <gmpx-api-loader key="AIzaSyCWl8uFZQTCMxBy8MNe8YaPDlelX6No4LI" libraries="places"> <!--api loader-->
         <gmpx-map-context id="myMap">
             <div class="googlemaps">
-                <gmpx-place-picker placeholder="Enter a location! :)" for="map" search-box="true"></gmpx-place-picker>
+                <gmpx-place-picker id="search_box" placeholder="Enter a location! :)" for="map" search-box="true"></gmpx-place-picker>
                 <gmp-map id="map" center="{{ full_map.center }}" zoom="{{ full_map.zoom }}" map-id="{{ full_map.map_id }}">
 
                     <gmp-info-window id="infoWindow"></gmp-info-window>
                     
                     {% for currLoc in all_locations %}
-                    <div class="markers" data-category="{{ currLoc.filter_category }}">
+                    <div class="markers" data-category="{{ currLoc.filter_category }}">         <!--map and markers-->
                         <gmp-advanced-marker
                         gmp-clickable="true" 
-                        position="{{ currLoc.latitude }}, {{ currLoc.longitude }}"
+                        position="{{ currLoc.latitude }}, {{ currLoc.longitude }}"              
                         title="{{ currLoc.name }}"
                         category="{{ currLoc.filter_category }}"
                         data-zip="{{ currLoc.zipcode }}"
@@ -133,7 +133,7 @@
     </gmpx-api-loader>
 
     <script type="module">
-        ////////////////////////////stuff in progress/////////////////////////////////////
+        //////////////////////////////stuff working/////////////////////////////////////
         const markers = document.querySelectorAll("gmp-advanced-marker");
             markers.forEach(marker => {
                 marker.addEventListener("gmp-click", (domEvent, latLng) => {
@@ -141,7 +141,7 @@
                     const title = marker.getAttribute("title");
                     const category = marker.getAttribute("category");
                     const zipcode = marker.getAttribute("data-zip");
-                    const address = marker.getAttribute("data-address");
+                    const address = marker.getAttribute("data-address");        //info window for markers
                     const city = marker.getAttribute("data-city");
 
                     infoWindow.innerHTML = `
@@ -156,7 +156,9 @@
                     infoWindow.setAttribute("open", "true");
                 });
             });
-        //////////////////////////////stuff working/////////////////////////////////////
+
+        //////////////////////////////////////////////////////////////////////////////
+
         document.addEventListener("DOMContentLoaded", function () {
             const checkboxes = document.querySelectorAll(".filter_checkbox");
             const markerWrap = document.querySelectorAll(" .markers ");
@@ -164,7 +166,7 @@
             function updateMarkers() {
                 const activeFilters = new Set(
                     Array.from(checkboxes)
-                        .filter(checkbox => checkbox.checked)
+                        .filter(checkbox => checkbox.checked)                    //marker checkbox filter
                         .map(checkbox => checkbox.value)
                 );
 
@@ -184,28 +186,14 @@
     </script>
 
     <!--<script>
-        document.addEventListener("DOMContentLoaded", async () => {
+        //////////////////////////////stuff in progress/////////////////////////////////////
+        const map = document.getElementById('map');
+        const placePicker = document.getElementById('search_box');
 
-            const context = document.querySelector('gmpx-place-picker');
-            const mapHtml = document.querySelector('gmp-map');
-
-            context.addEventListener('gmpx-placechange', (e) => {
-                if (!e.detail?.place?.geometry?.location) {
-                    console.error("Invalid place data:", e.detail);
-                    return;
-                }
-                const location = e.detail.place.geometry.location;
-                const currLoc = {
-                    lat: place.geometry.location.lat,
-                    lng: place.geometry.location.lng
-                }
-
-                //const place = e.detail.place;
-
-                mapHtml.center = '${currLoc.lat}, ${currLoc.lng}';
-                mapHtml.zoom = 15;
-                console.log("New center:", mapHtml.center);
-            });
+        placePicker.addEventListener('gmp-select', (event) => {
+            const place = event.detail;
+            map.setAttribute('center', `${place.location.lat},${place.location.lng}`);
+            map.setAttribute('zoom', '19'); 
         });
     </script>-->
     
