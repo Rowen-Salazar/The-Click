@@ -1,4 +1,3 @@
-
 from django.shortcuts import get_object_or_404, render
 from directory.models import Map, Building, Filter, Location, POIFilter, BuildingCategoryImage
 from django.conf import settings
@@ -30,37 +29,60 @@ def buildingview(request, building_name):
     all_categories = POIFilter.objects.all()  # Get all POI categories
     selected_category_id = request.GET.get("category")
     building_list = Building.objects.all() # this makes sure building sidebar content always loads
-    floor_range = range(1, full_building.floors + 1) 
+    
     selected_floor = request.GET.get("floor")  # Can use this for floor select --> here for my testing
-    floor_image = None
-
-    if selected_floor:
-        try: 
-            floor_image = Building.objects.get(id=full_building, floor=selected_floor)
-        except Building.DoesNotExist:
-            floor_image = None
 
     current_category = None
     category_image = None
+
+    default_floor_image = None # FL
+
+    # NEW ---------------
+    # Detect which floors exist for this building
+    available_floors = []
+    if full_building.ground_floor:
+        available_floors.append("Ground")
+    for i in range(1, 8):
+        floor_attr = f'floor_{i}'
+        if getattr(full_building, floor_attr):
+            available_floors.append(str(i))
+    
+    # Always set the default floor image based on selected floor (fallback for when no category is selcted)
+    if selected_floor:
+        if selected_floor.lower() == "ground":
+            default_floor_image = full_building.ground_floor
+        else:
+            floor_attr = f'floor_{selected_floor}'
+            default_floor_image = getattr(full_building, floor_attr, None)
+    else:
+        default_floor_image = full_building.floor_1
+    # NEW --------------
 
     if selected_category_id:
         try:
             current_category = POIFilter.objects.get(id=selected_category_id)
 
-        # If a specific floor is selected (use parts of this for floor select --> can edit as needed, just threw this in for my testing)
+            # If a specific floor is selected (use parts of this for floor select --> can edit as needed, just threw this in for my testing)
             if selected_floor:
                 is_ground = selected_floor.lower() == "ground"
                 floor_number = 0 if is_ground else int(selected_floor)
-                
-                category_image = None
-                if floor_images.get(selected_floor):
-                    category_image = floor_images[selected_floor]
 
+                category_image = BuildingCategoryImage.objects.get(
+                    building=full_building,
+                    category=current_category,
+                    floor=floor_number
+                    # is_ground_floor=is_ground,
+                    # floor=None if is_ground else floor_number
+                )
             else:
                 # Default to floor 1 category image
-                category_image = full_building.floor_1
-                    
-        except (POIFilter.DoesNotExist, ValueError):
+                category_image = BuildingCategoryImage.objects.get(
+                    building=full_building,
+                    category=current_category,
+                    # is_ground_floor=False,
+                    floor=1
+                )
+        except (POIFilter.DoesNotExist, BuildingCategoryImage.DoesNotExist, ValueError):
             category_image = None
 
     context = {
@@ -70,9 +92,9 @@ def buildingview(request, building_name):
         'selected_category_id': int(selected_category_id) if selected_category_id else None,
         'category_image': category_image,
         'current_category': current_category,
-        'selected_floor': selected_floor,
-        'floor_image': floor_image,
-        'floor_range': floor_range,
+        'available_floors': available_floors,       # NEW
+        'selected_floor': selected_floor,           # NEW
+        'default_floor_image': default_floor_image, # NEW
     }
 
     return render(request, 'buildingview.html', context)
