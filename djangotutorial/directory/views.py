@@ -31,13 +31,10 @@ def buildingview(request, building_name):
     building_list = Building.objects.all() # this makes sure building sidebar content always loads
     
     selected_floor = request.GET.get("floor")  # Can use this for floor select --> here for my testing
-
     current_category = None
     category_image = None
-
     default_floor_image = None # FL
 
-    # NEW ---------------
     # Detect which floors exist for this building
     available_floors = []
     if full_building.ground_floor:
@@ -47,6 +44,17 @@ def buildingview(request, building_name):
         if getattr(full_building, floor_attr):
             available_floors.append(str(i))
     
+    # Reorder floor display on dropdown if building is Discovery Park
+    if full_building.slug == 'dp':
+        def dp_floor_sort_key(floor):
+            if floor == "1":
+                return 0
+            elif floor == "ground":
+                return 1
+            else:
+                return 2 
+        available_floors = sorted(available_floors, key=dp_floor_sort_key)
+
     # Always set the default floor image based on selected floor (fallback for when no category is selcted)
     if selected_floor:
         if selected_floor.lower() == "ground":
@@ -56,8 +64,8 @@ def buildingview(request, building_name):
             default_floor_image = getattr(full_building, floor_attr, None)
     else:
         default_floor_image = full_building.floor_1
-    # NEW --------------
 
+    # Category + floor-specific image code (if selected on buildingview)
     if selected_category_id:
         try:
             current_category = POIFilter.objects.get(id=selected_category_id)
