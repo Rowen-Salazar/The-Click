@@ -1,4 +1,3 @@
-
 from django.shortcuts import get_object_or_404, render
 from directory.models import Map, Building, Filter, Location, POIFilter, BuildingCategoryImage
 from django.conf import settings

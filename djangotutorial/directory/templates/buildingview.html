@@ -83,7 +83,6 @@
             border: solid 3px #A0A680;
             border-radius: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-            
         }
 
         .fldropdown button
@@ -155,7 +154,6 @@
 
     <div class="controls-wrapper"> <!-- wrapper div to align both dropdowns. keeps one from messing with the others location -->
         <!-- NEW -->
-        {% if available_floors %}
         <form method="get" id="floor-filter-form">
             {% if selected_category_id %}
                 <input type="hidden" name="category" value="{{ selected_category_id }}">
@@ -164,18 +162,52 @@
                 <button type="button" onclick="toggleFloorDropdown()">Select Floor:</button>
             
                 <div id="floor-dropdown-container" style="display: none; margin-top: 10px;">
-                <label for="floor-select"></label>
-                <select id="floor-select" name="floor" onchange="document.getElementById('floor-filter-form').submit()">
-                    {% for floor in available_floors %}
-                        <option value="{{ floor }}" {% if selected_floor == floor %}selected{% endif %}>
-                            {% if floor == "Ground" %}Ground Floor{% else %}Floor {{ floor }}{% endif %}
-                        </option>
-                    {% endfor %}
-                </select>
+                    <label for="floor-select"></label>
+                    <select id="floor-select" name="floor"
+                        {% if not available_floors %}disabled{% endif %} 
+                        onchange="document.getElementById('floor-filter-form').submit()">
+                        {% if available_floors %}
+                            {% for floor in available_floors %}
+                                {% if full_building.slug == 'dp' %}
+                                <option value="{{ floor }}" {% if selected_floor == floor %}selected{% endif %}>
+                                    {% if floor == "Ground" %}
+                                        Floor 2
+                                    {% endif %}
+                                    {% if floor == "1" %}
+                                        Floor 1
+                                    {% endif %}
+                                    {% if floor == "2" %}
+                                        Floor 1 (Wings K, G, E)
+                                    {% endif %}
+                                    {% if floor == "3" %}
+                                        Floor 1 (Wings H, J, D)
+                                    {% endif %}
+                                    {% if floor == "4" %}
+                                        Floor 1 (Wings A, B, M, F)
+                                    {% endif %}
+                                    {% if floor == "5" %}
+                                        Floor 2 (Wings K, E)
+                                    {% endif %}
+                                    {% if floor == "6" %}
+                                        Floor 2 (Wings D, B)
+                                    {% endif %}
+                                    {% if floor == "7" %}
+                                        Floor 2 (Wing F)
+                                    {% endif %}
+                                </option>
+                                {% else %}
+                                <option value="{{ floor }}" {% if selected_floor == floor %}selected{% endif %}>
+                                    {% if floor == "Ground" %}Ground Floor{% else %}Floor {{ floor }}{% endif %}
+                                </option>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <option>No floors available</option>
+                        {% endif %}
+                    </select>
+                </div>
             </div>
-        </div>
-        </form>
-        {% endif %}
+        </form>        
         <!-- NEW -->
 
         {% include "buildingFiltersDropdown.html" %}  
