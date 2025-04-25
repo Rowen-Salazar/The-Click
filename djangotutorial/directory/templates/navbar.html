@@ -1,199 +1,214 @@
 {% load static %}
-
-<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Volkhov:wght@400;700&display=swap');
 
-    @import url('https://fonts.googleapis.com/css2?family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-    
     .navbar {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 10px 10px 0px 5px;
-        flex-wrap: wrap;
-        height: auto;
-        width: 100%;
+        padding: 10px;
         font-family: "Volkhov";
-    
-        position: fixed;
-        top: 0;
-        /* height: 80px; */
         background-color: #D2D4C4;
         border: 3px solid #669631;
         border-right: none;
         border-left: none;
-        filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.3));
-        outline-offset: -3px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
         z-index: 99998;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        flex-wrap: nowrap;
+        min-height: 70px;
     }
-    
-    .navbar ul {
-        list-style: none;
+
+    .left-section {
         display: flex;
-        flex-wrap: wrap;
-        margin-left: auto;
+        align-items: center;
+    }
+
+    .right-section {
+        display: flex;
+        align-items: center;
+        gap: 20px;
     }
 
     .logo {
         display: flex;
-        align-items: center; /* vertically center the logo */
-        margin-bottom: 3px;
-        /* justify-content: center; Optionally center logo horizontally if needed */
-    }
-    
-    .logo img {
-        width: 185px;  /* set default width */
-        height: auto;  /* maintain aspect ratio */
-        transition: width 0.3s ease;
-    }
-    
-    .logo a {
-        cursor: pointer;
-    }
-    
-    .navbar ul li {
-        margin: auto;
-        padding: 0px 60px;
-        margin-bottom: 10px;
-        display: flex;
         align-items: center;
     }
-    
-    .navbar ul li a {
+
+    .logo img {
+        width: 150px;
+        height: auto;
+        margin-right: 5px;
+        vertical-align: middle;
+    }
+
+    .hamburger {
+        display: none;
+        font-size: 26px;
+        cursor: pointer;
         color: #0E4809;
-        text-decoration: none;
-        font-size: 18px;
-        /* content: '';
+    }
+
+    .navbar-nav {
+        display: flex;
+        align-items: center;
+        gap: 100px;
+        list-style: none;
+        transition: max-height 0.3s ease;
+        margin: 0;
+        /* padding: 0; */
+        padding: 0px 100px 0px 0px;
+    }
+
+    .navbar-nav li {
         position: relative;
-        top: 10%;
-        width: 0%;
-        height: 2px;
-        background: #D2D4C4;
-        transition: .15s; 
-        margin-left: 40px; */
     }
-    
-    .navbar ul li a:hover {
-        width: 100%;
+
+    .navbar-nav a {
+        text-decoration: none;
+        color: #0E4809;
+        font-size: 18px;
     }
-    
+
     .dropdown {
         display: none;
         position: absolute;
-        top: 100%; /* Position below the parent list item */
-        left: 0; /* Align to the left */
-        z-index: 99999; /* Ensure it's on top of other elements */
-        background-color: #00663F;
-    }
-    
-    .dropdown ul li {
-        width: 110px;
-        padding: 8px 10px;
-    }
-    
-    .dropdown ul li a {
-        color: white;
+        top: 100%;
         background: #00663F;
-        font-size: 13px;
+        border-radius: 8px;
+        padding: 10px 0;
+        z-index: 99999;
     }
-    
-    .navbar ul li:hover .dropdown {
-        display: block;
-        position: absolute;
-        left: auto; /* position of dropdown box under select campus */
-        top: 55px;
-        background-color: #00663F;
-        border-radius: 10px;
-        box-shadow: none;
-        margin: 0px;
-        padding: 10px 5px 0px 5px;
+
+    .dropdown ul {
+        padding: 0;
+        margin: 0;
         list-style: none;
     }
-    
-    /* every time you change anything in .navbar ul li a or .navbar ul li you have to fix this >:( */
-    /* this controls the dropdown sizing */
-    .navbar ul li:hover .dropdown ul {
-        display: block;
-        margin: 0px;
-        padding: 0px;
-        list-style: none;
+
+    .dropdown li {
+        padding: 5px 15px;
     }
-    
-    .searchbox {
-        height: 40px;
-        width: 180px;
+
+    .dropdown li a {
+        color: white;
+        font-size: 14px;
+    }
+
+    .navbar-nav li:hover .dropdown {
+        display: block;
+    }
+
+    .icon {
+        background-color: #0E4809;
+        color: white;
+        padding: 6px 10px;
+        cursor: pointer;
         display: flex;
         align-items: center;
-        justify-content: center;
-        margin-left: auto;
-        margin-right: 5%;
-        margin-bottom: 10px;
-        background: #D2D4C4;
-        position: relative;
+        height: 35px;
     }
-    
-    .searchbox input {
-        height: 100%;
-        width: 180px;
-        color: #0E4809;
-        outline: none;
-        padding: 0 10px;
-        font-size: 16px;
-    }
-    
-    .icon {
-        width: 90px;
-        height: 30px;
-        padding: 5px 8px;
-        
-        text-align: center;
-        border: 1px solid #cccccc;
-        background: #0E4809;
-        
-        cursor: pointer;
-    }
-    
+
     .icon:hover {
-        background: rgb(4, 42, 7);
+        background-color: rgb(4, 42, 7);
     }
-    
-    .icon span {
-        color: white;
-        font-size: 25px;
+
+    @media (max-width: 960px) {
+        .navbar {
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 70px;
+        }
+
+        .left-section {
+            display: flex;
+            align-items: center;
+            width: auto;
+        }
+
+        .hamburger {
+            display: block;
+            font-size: 26px;
+            cursor: pointer;
+            color: #0E4809;
+            margin-left: auto;
+            margin-right: 50px;
+        }
+
+        .right-section {
+            width: 100%;
+        }
+
+        .navbar-nav {
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+            max-height: 0;
+            overflow: hidden;
+            background-color: #D2D4C4;
+            padding: 0;
+            margin: 0;
+            transition: max-height 0.4s ease;
+            gap: 10px;
+        }
+
+        .navbar-nav.active {
+            max-height: 500px;
+            padding: 10px 30px;
+        }
+
+        .navbar-nav li {
+            padding: 8px 10px;
+        }
+
+        .navbar-nav li a {
+            font-size: 16px;
+        }
     }
 </style>
 
-
 <div class="navbar">
-    <div class="logo">
-        <a href="http://127.0.0.1:8000">
-            <img src="/static/image/untlogo.png" alt="UNT Home Logo">
-        </a>
-        <a href="http://127.0.0.1:8000"> 
-            <img src="/static/image/MAPDIRECTORY.png" alt "UNT Map Directory Link">
-        </a>
+    <div class="left-section">
+        <div class="logo">
+            <a href="http://127.0.0.1:8000">
+                <img src="{% static 'image/untlogo.png' %}" alt="UNT Home Logo">
+            </a>
+            <a href="http://127.0.0.1:8000">
+                <img src="{% static 'image/MAPDIRECTORY.png' %}" alt="UNT Map Directory Link">
+            </a>
+        </div>
     </div>
 
-    <ul>
-        <li>
-            <a href="#">Select Campus &#x25BE;</a>
-            <div class="dropdown">
-                <ul>
-                    <li><a href="http://127.0.0.1:8000/mapview/untmaincampus/">Main Campus</a></li>
-                    <li><a href="http://127.0.0.1:8000/buildingview/dp/">Discovery Park</a></li>
-                </ul>
-            </div>
-        </li>
-        <li>
-            <a href="http://127.0.0.1:8000/buildingview/">Buildings</a>
-        </li>
-    </ul>
-    <div class="searchbox">
-        <input type="search" placeholder="Search:">
-        <label class="icon">
-            <span class="fa fa-search"></span>
-        </label>
+    <div class="hamburger" onclick="toggleMenu()">
+        <i class="fa fa-bars"></i>
+    </div>
+    
+    <div class="right-section">
+        <ul class="navbar-nav" id="nav-menu">
+            <li>
+                <a href="#">Select Campus &#x25BE;</a>
+                <div class="dropdown">
+                    <ul>
+                        <li><a href="http://127.0.0.1:8000/mapview/untmaincampus/">Main Campus</a></li>
+                        <li><a href="http://127.0.0.1:8000/buildingview/dp/">Discovery Park</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="http://127.0.0.1:8000/buildingview/">Buildings</a></li>
+            <li><a href="http://127.0.0.1:8000/about/">About Us</a></li>
+        </ul>
     </div>
 </div>
+
+<script>
+    function toggleMenu() {
+        const nav = document.getElementById('nav-menu');
+        nav.classList.toggle('active');
+    }
+</script>

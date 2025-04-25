@@ -1,7 +1,101 @@
-<p style="text-align: center;">About Us</p>
-<p style="text-align: center;">&nbsp;</p>
+{% load static %}
 
-<p>This will be the about us page</p>
-<p style="text-align: center;">&nbsp;</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<p style="text-align: center;"><a href="http://127.0.0.1:8000/" style="color:#2761b7">Back</a></p>
+    <style>
+        body {
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #446742, #8DA977);
+            font-family: "Volkhov";
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page {
+            padding-top: 120px;
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            padding-bottom: 60px;
+        }
+
+        h1 {
+            font-size: 65px;
+            color: #EFEFEF;
+            text-shadow: 2px 2px 20px #0E4809;
+            margin-bottom: 40px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .about-box {
+            border: 1px solid #0E4809;
+            background: #D2D4C4;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+            color: #0E4809;
+            font-size: 20px;
+            line-height: 1.6;
+
+            /* animation for box */
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        }
+
+        .about-box p {
+            margin: 0;
+        }
+    </style>
+</head>
+        
+<body>
+
+    {% include "navbar.html" %}
+
+    <div class="page">
+        <h1>About Us</h1>
+        <div class="about-box">
+            <p>This is a test about us page paragraph. I am writing this just to test
+               the length of this paragraph and how it sits on the page formatting wise.
+               <br><br>
+               I am also testing the break element, to ensure that it breaks the top
+               paragraph from this paragraph.
+               <br><br>
+               I am also adding as many words as I can to test how the page acts when
+               there are a lot of words. I want to see if it will scroll down or do something
+               else. Hopefully this is a good amount of words and it works how I expect
+               it to.
+               <br><br>
+               This will be a <strong>copy and paste paragraph</strong> from the top to make this even longer.
+               I am also adding as many words as I can to test how the page acts when
+               there are a lot of words. I want to see if it will scroll down or do something
+               else. Hopefully this is a good amount of words and it works how I expect
+               it to.
+               <br><br>
+               This will be a <strong>copy and paste paragraph</strong> from the top to make this even longer.
+               I am also adding as many words as I can to test how the page acts when
+               there are a lot of words. I want to see if it will scroll down or do something
+               else. Hopefully this is a good amount of words and it works how I expect
+               it to.
+            </p>
+        </div>
+    </div>
+</body>
+</html> 
