@@ -39,6 +39,10 @@ body {
         left: calc(20px);
         right: calc(20px);
     }
+    .building-name {
+        left: 10px;
+        right: 10px;
+    }
 }
 .floorplan-container img {
     max-width: 100%;

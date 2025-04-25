@@ -7,6 +7,9 @@ def home(request):
     map_list = Map.objects.all()
     return render(request, 'home.html', {'map_list': map_list})
 
+def about(request):
+    return render(request, 'about.html')
+
 def mapview(request, map_name):
     full_map = get_object_or_404(Map, name=map_name)
     all_locations = Location.objects.all()
