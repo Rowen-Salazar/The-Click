@@ -33,32 +33,52 @@
         }
 
         .container {
-            background-color: #00663F;
-            font-size: 15px;
-            color: white;
-            border-radius: 14px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.6);
-            display: block;
             position: fixed;
+            /* display: block; */
+            z-index: 999;
             top: 160px;
-            /* bottom: 60px; */
-            left: 1.4%;
+            left: 18px;
             width: 80px;
             height: 140px;
             padding: 0px 15px 5px 15px; /* top right bottom left */
+            border-radius: 14px;
+
+            background-color: #00663F;
+            box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.6);
+            font-size: 15px;
+            color: white;
+
             cursor: pointer;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
-            z-index: 1;
         }
 
         .container p {
             font-size: 18px; 
             text-align: center;
         }
+
+        #search_box {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            z-index: 999;            
+            top: 0.5%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgb(0 102 63 / 0.9);
+            border: 2px solid rgb(0 102 63 / 0.9);
+            border-radius: 8px;
+            padding: 1px 3px;
+        }
+
         #infowindow {
+            position: fixed;
+            z-index: 999;
+            bottom: 13px;
+            left: 18px;
             background-color: #D2D4C4;
             border-radius: 8px;
             padding: 10px;
@@ -66,12 +86,8 @@
             font-family: Arial, sans-serif;
             font-size: 16px;
             color: #00663F;
-            top: -160px;
-            position: fixed;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.6);
-            position: fixed;
-            left:-930px;
-            z-index: 2;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+            display: none;
         }
         #infowindow strong{
             font-size: 18px;
@@ -81,9 +97,7 @@
 </head>
 <body>
     {% include "navbar.html" %}
-    
-    {% include "buildingsidebar.html" %}
-    
+        
     <!----------------------------------------------------------------------------------------------------------
     <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWl8uFZQTCMxBy8MNe8YaPDlelX6No4LI&callback=initMap&v=beta&libraries=marker,places&loading=async"
@@ -109,8 +123,6 @@
             <div class="googlemaps">
                 <gmpx-place-picker id="search_box" placeholder="Enter a location! :)" for="map" search-box="true"></gmpx-place-picker>
                 <gmp-map id="map" center="{{ full_map.center }}" zoom="{{ full_map.zoom }}" map-id="{{ full_map.map_id }}">
-
-                    <gmp-info-window id="infoWindow"></gmp-info-window>
                     
                     {% for currLoc in all_locations %}
                     <div class="markers" data-category="{{ currLoc.filter_category }}">         <!--map and markers-->
@@ -132,30 +144,32 @@
         </gmpx-map-context>
     </gmpx-api-loader>
 
+    <div id="infowindow" class="windowContent"></div>
+
     <script type="module">
+
         //////////////////////////////stuff working/////////////////////////////////////
         const markers = document.querySelectorAll("gmp-advanced-marker");
-            markers.forEach(marker => {
-                marker.addEventListener("gmp-click", (domEvent, latLng) => {
-                    const pos = marker.getAttribute("position");
-                    const title = marker.getAttribute("title");
-                    const category = marker.getAttribute("category");
-                    const zipcode = marker.getAttribute("data-zip");
-                    const address = marker.getAttribute("data-address");        //info window for markers
-                    const city = marker.getAttribute("data-city");
+        const infoWindow = document.getElementById("infowindow");
 
-                    infoWindow.innerHTML = `
-                        <div id="infowindow" class="windowContent">
-                            <strong>${title}</strong><br/>
-                            Category: ${category}<br/>
-                            Address: ${address}<br/>
-                            Zip code: ${zipcode}<br/>
-                            City: ${city}
-                        </div>
-                    `;
-                    infoWindow.setAttribute("open", "true");
-                });
+        markers.forEach(marker => {
+            marker.addEventListener("gmp-click", () => {
+                const title = marker.getAttribute("title");
+                const category = marker.getAttribute("category");
+                const zipcode = marker.getAttribute("data-zip");
+                const address = marker.getAttribute("data-address");
+                const city = marker.getAttribute("data-city");
+
+                infoWindow.innerHTML = `
+                    <strong>${title}</strong><br/>
+                    Category: ${category}<br/>
+                    Address: ${address}<br/>
+                    Zip code: ${zipcode}<br/>
+                    City: ${city}
+                `;
+                infoWindow.style.display = "block";
             });
+        });
 
         //////////////////////////////////////////////////////////////////////////////
 
