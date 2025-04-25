@@ -17,7 +17,6 @@
         right: 2%;
         width: 220px;
         height: calc(100% - 175px);
-        /*height: 71vh; ensures it doesn’t cover the whole page */
         
         background-color: rgb(160 166 128 / 0.9); /* slight transparency */
         color: #A0A680;
@@ -104,10 +103,16 @@
         background: #bfc2ae;
     }
 
+    .sidebar-building-box.selected {
+        /* outline: 1px solid #669631; */
+        box-shadow: 0px 0px 10px 8px #669631;
+        /* outline-offset: -3px; // keeps outline flush to box */
+        /* background-color: #bfc2ae; */
+    }
+
     .sidebar-building-box a {
         color: black;
         text-decoration: none;
-        /*display: block;*/
         flex-direction: column;  /* stacks text elements vertically */
         justify-content: space-between; /* ensures text is spread (top and bottom) */
         display: flex;
@@ -137,7 +142,6 @@
         transform: translateY(-50%);
         width: 60px; 
         height: 60px;
-        /*flex-shrink: 0;*/
         object-fit: cover;  /* ensures the image fits within container */
         border: 2px solid #0E4809;
         z-index: 2;
@@ -167,7 +171,7 @@
     <div class="sidebar-building-container" id="buildingList">
 
         {% for building in building_list %}
-        <div class="sidebar-building-box" id="buildingBox">
+        <div class="sidebar-building-box" id="buildingBox" data-slug="{{ building.slug }}">
             <a data-name="{{ building.display_name }} {{ building.mnemonic }}" data-url="{% url 'directory:buildingview' building.slug %}">
                 <span class="sidebar-building-title">{{ building.display_name }}</span>
                 <span class="sidebar-building-address">{{ building.address }}</span>
@@ -188,7 +192,6 @@
             let buildingURL = this.querySelector("a").dataset.url;
             let formattedURL = buildingURL.toLowerCase().replace(/\s+/g, "-"); // Also change data-name in each building box
             window.location.href = `http://127.0.0.1:8000${buildingURL}`; // Change URL to http://127.0.0.1:8000/buildingview/${formattedName}/ when we make building pages
-            // window.location.href = `http://127.0.0.1:8000/${buildingURL}/`;
         });
     });
     
@@ -205,4 +208,25 @@
             }
         });
     });
+
+    // Highlight the selected building box based on the current URL
+    document.addEventListener("DOMContentLoaded", function () {
+        const currentPath = window.location.pathname;
+        const boxes = document.querySelectorAll(".sidebar-building-box");
+
+        boxes.forEach(box => {
+            const slug = box.dataset.slug;
+            if (currentPath.includes(slug)) {
+                box.classList.add("selected");
+
+                // Scroll the selected building box into view on the corresponding page
+                box.scrollIntoView({
+                    behavior: "smooth", // or "auto" for instant scroll
+                    block: "center",
+                    inline: "nearest"
+                });
+            }
+        });
+    });
+
 </script>

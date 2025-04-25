@@ -202,13 +202,12 @@
                 <img id="zoomable-image" src="{{ category_image.image.url }}" alt="Category-specific floor image">
                 <button class="in" onclick="zoomIn()">+</button>
                 <button class="out" onclick="zoomOut()">-</button>
-            <!-- changing floor_1 to floor_2, floor_3, etc or to ground_floor will change the image that pre loads on the page -->
-<!-- NEW -->{% elif default_floor_image %}
+            {% elif default_floor_image %}
                 <img id="zoomable-image" src="{{ default_floor_image.url }}" alt="Default floor image">
                 <button class="in" onclick="zoomIn()">+</button>
                 <button class="out" onclick="zoomOut()">-</button>
             {% else %}
-                <p class="placeholder-text">Please select a building from the building sidebar to view :)</p>
+                <img id="default-image" src="/static/image/scrappysaysbldg.png" alt="Default floor image">
             {% endif %}
         </div>
     </div>
