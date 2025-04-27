@@ -207,13 +207,14 @@
 
     </script>
 
-    <!--<script>
+    <script>
         //////////////////////////////stuff in progress/////////////////////////////////////
         customElements.whenDefined('gmpx-place-picker').then(() => {
             const mapElement = document.querySelector('gmp-map');
             const placePicker = document.querySelector('gmpx-place-picker');
 
             placePicker.addEventListener('gmpx-placechange', (event) => {
+            console.log('Event:', event);
             const place = event.detail.place; // Access place data from the event
             console.log('Selected Place:', place);
 
@@ -232,7 +233,7 @@
             }
             });
         });
-    </script>-->
+    </script>
 
 
 </body>
