@@ -38,14 +38,14 @@
             z-index: 999;
             top: 160px;
             left: 18px;
-            width: 80px;
-            height: 140px;
+            width: 90px;
+            height: 165px;
             padding: 0px 15px 5px 15px; /* top right bottom left */
             border-radius: 14px;
 
             background-color: #00663F;
             box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.6);
-            font-size: 15px;
+            font-size: 16px;
             color: white;
 
             cursor: pointer;
@@ -121,7 +121,15 @@
     <gmpx-api-loader key="AIzaSyCWl8uFZQTCMxBy8MNe8YaPDlelX6No4LI" libraries="places"> <!--api loader-->
         <gmpx-map-context id="myMap">
             <div class="googlemaps">
-                <gmpx-place-picker id="search_box" placeholder="Enter a location! :)" for="map" search-box="true"></gmpx-place-picker>
+                <gmpx-place-picker
+                 return-place 
+                 id="search_box" 
+                 placeholder="Enter a location! :)" 
+                 for="map"
+                 search-box="true"
+                 map-id="{{ full_map.map_id }}"
+                 zoom="20"
+                 ></gmpx-place-picker>
                 <gmp-map id="map" center="{{ full_map.center }}" zoom="{{ full_map.zoom }}" map-id="{{ full_map.map_id }}">
                     
                     {% for currLoc in all_locations %}
@@ -157,7 +165,7 @@
                 const title = marker.getAttribute("title");
                 const category = marker.getAttribute("category");
                 const zipcode = marker.getAttribute("data-zip");
-                const address = marker.getAttribute("data-address");
+                const address = marker.getAttribute("data-address");    //marker info window
                 const city = marker.getAttribute("data-city");
 
                 infoWindow.innerHTML = `
@@ -171,7 +179,7 @@
             });
         });
 
-        //////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////stuff working/////////////////////////////////////
 
         document.addEventListener("DOMContentLoaded", function () {
             const checkboxes = document.querySelectorAll(".filter_checkbox");
@@ -199,17 +207,33 @@
 
     </script>
 
-    <!--<script>
+    <script>
         //////////////////////////////stuff in progress/////////////////////////////////////
-        const map = document.getElementById('map');
-        const placePicker = document.getElementById('search_box');
+        customElements.whenDefined('gmpx-place-picker').then(() => {
+            const mapElement = document.querySelector('gmp-map');
+            const placePicker = document.querySelector('gmpx-place-picker');
 
-        placePicker.addEventListener('gmp-select', (event) => {
-            const place = event.detail;
-            map.setAttribute('center', `${place.location.lat},${place.location.lng}`);
-            map.setAttribute('zoom', '19'); 
+            placePicker.addEventListener('gmpx-placechange', (event) => {
+            console.log('Event:', event);
+            const place = event.detail.place; // Access place data from the event
+            console.log('Selected Place:', place);
+
+            if (place.geometry) {
+                const location = place.geometry.location;
+                console.log('Location:', location.lat(), location.lng());
+
+                // Update map center
+                mapElement.center = {
+                    lat: location.lat(),
+                    lng: location.lng(),
+                };
+            } 
+            else {
+                console.error('No geometry found for the selected place.');
+            }
+            });
         });
-    </script>-->
+    </script>
 
 
 </body>
