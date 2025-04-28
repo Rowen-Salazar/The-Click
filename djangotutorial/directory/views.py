@@ -46,7 +46,14 @@ def buildingview(request, building_name):
         floor_attr = f'floor_{i}'
         if getattr(full_building, floor_attr):
             available_floors.append(str(i))
-    
+
+    # Always set the default floor image based on selected floor (fallback for when no category is selcted)
+    if not selected_floor:
+        if "Ground" in available_floors:
+            selected_floor = available_floors[1]
+        elif available_floors:
+            selected_floor = available_floors[0]
+
     # Reorder floor display on dropdown if building is Discovery Park
     if full_building.slug == 'dp':
         def dp_floor_sort_key(floor):
@@ -57,7 +64,7 @@ def buildingview(request, building_name):
             else:
                 return 2 
         available_floors = sorted(available_floors, key=dp_floor_sort_key)
-
+    
     # Always set the default floor image based on selected floor (fallback for when no category is selcted)
     if selected_floor:
         if selected_floor.lower() == "ground":
