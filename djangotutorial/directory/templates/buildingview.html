@@ -54,7 +54,8 @@
             cursor: pointer;
         }
         
-        .in:hover, .out:hover{
+        .in:hover, .out:hover
+        {
           background-color: #018552;
         }
 
@@ -78,51 +79,99 @@
             flex-direction: column;
             align-items: flex-start;
             gap: 10px;
-            padding: 10px;
             background-color: #D9D9D9;
             border: solid 3px #A0A680;
             border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+            
+            /*FONT NOT MATCHING*/
+            font-family: "Montserrat", Arial, Helvetica, sans-serif;
         }
 
-        .fldropdown button
+        .fldropdown-toggle
         {
-            padding: 8px 16px;
+            padding: clamp(0.75rem, 1vw, 1rem);
             width: 100%;
             color: #0E4809;
-            background-color: #D9D9D9;
-            border: none;
             cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-            font-size: clamp(1rem, 1.2vw, 1.2rem);
+            background-color: transparent;
+            border: none;
             text-align: center;
+            font-size: clamp(1rem, 1.2vw, 1.2rem);
+            transition: background-color 0.3s ease;
+            user-select: none;
 
+            display: flex;                
+            align-items: center;          
+            justify-content: center;
         }
 
-        .fldropdown button:hover
+        .fldropdown-toggle-content {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem; /* space between text and arrow */
+        }
+
+        .fldropdown:hover
         {
-            background-color: #0056b3;
+            background-color: #e1e1e1;
         }
 
-        #floor-select
-        {   
-            padding: 6px 12px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        /* Label styling */
-        #floor-dropdown-container label
+        .floor-options 
         {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #333;
+            max-height: 50vh;
+            overflow-y: auto;
+            width: 100%;
+            background-color: #D9D9D9;
+            border: solid 3px #A0A680;
+            border-radius: 8px;
+            font-family: "Montserrat", Arial, Helvetica, sans-serif;
         }
 
-        /* NEW */
+        .floor-options ul 
+        {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .floor-options ul li 
+        {
+            /* padding: 10px; */
+            cursor: pointer;
+            color: #0E4809;
+            font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+            transition: background-color 0.2s;
+            padding: clamp(0.4rem, 0.7vw, 0.8rem);  
+            font-family: "Montserrat", Arial, Helvetica, sans-serif; 
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale; 
+            font-weight: 500;
+        }
+
+        .floor-options ul li:hover 
+        {
+            background-color: #b8b9b5;
+        }
+
+        /* .floor-options ul li.selected 
+        {
+            background-color: #b2d8b2;
+            color: #004d26;
+        } */
+
+        #floor-dropdown-container
+        {
+            background-color: transparent;
+            border: none;
+        }
+
+        .hidden
+        {
+            display: none;
+        }
+
     </style>
 </head>
 <body>
@@ -138,59 +187,67 @@
     <div class="controls-wrapper"> <!-- wrapper div to align both dropdowns. keeps one from messing with the others location -->
         <!-- NEW -->
         <form method="get" id="floor-filter-form">
+            <input type="hidden" name="floor" id="hidden-floor-input" value="{% if selected_floor %}{{ selected_floor }}{% endif %}">
             {% if selected_category_id %}
                 <input type="hidden" name="category" value="{{ selected_category_id }}">
             {% endif %}
             <div class="fldropdown">
-                <button type="button" onclick="toggleFloorDropdown()">Select Floor:</button>
-            
-                <div id="floor-dropdown-container" style="display: none; margin-top: 10px;">
-                    <label for="floor-select"></label>
-                    <select id="floor-select" name="floor"
-                        {% if not available_floors %}disabled{% endif %} 
-                        onchange="document.getElementById('floor-filter-form').submit()">
-                        {% if available_floors %}
-                            {% for floor in available_floors %}
+
+                <button type="button" class="fldropdown-toggle" onclick="toggleFloorDropdown()">
+                    <span class="fldropdown-toggle-content">
+                        <span id="selected-floor-name">
+                            {% if selected_floor %}
                                 {% if full_building.slug == 'dp' %}
-                                <option value="{{ floor }}" {% if selected_floor == floor %}selected{% endif %}>
-                                    {% if floor == "Ground" %}
-                                        Floor 2
-                                    {% endif %}
-                                    {% if floor == "1" %}
-                                        Floor 1
-                                    {% endif %}
-                                    {% if floor == "2" %}
-                                        Floor 1 (Wings K, G, E)
-                                    {% endif %}
-                                    {% if floor == "3" %}
-                                        Floor 1 (Wings H, J, D)
-                                    {% endif %}
-                                    {% if floor == "4" %}
-                                        Floor 1 (Wings A, B, M, F)
-                                    {% endif %}
-                                    {% if floor == "5" %}
-                                        Floor 2 (Wings K, E)
-                                    {% endif %}
-                                    {% if floor == "6" %}
-                                        Floor 2 (Wings D, B)
-                                    {% endif %}
-                                    {% if floor == "7" %}
-                                        Floor 2 (Wing F)
-                                    {% endif %}
-                                </option>
+                                    {# Handle DP special floor names here too if you need #}
+                                    {% if selected_floor == "Ground" %}Floor 2{% endif %}
+                                    {% if selected_floor == "1" %}Floor 1{% endif %}
+                                    {% if selected_floor == "2" %}Floor 1 (Wings K, G, E){% endif %}
+                                    {% if selected_floor == "3" %}Floor 1 (Wings H, J, D){% endif %}
+                                    {% if selected_floor == "4" %}Floor 1 (Wings A, B, M, F){% endif %}
+                                    {% if selected_floor == "5" %}Floor 2 (Wings K, E){% endif %}
+                                    {% if selected_floor == "6" %}Floor 2 (Wings D, B){% endif %}
+                                    {% if selected_floor == "7" %}Floor 2 (Wing F){% endif %}
                                 {% else %}
-                                <option value="{{ floor }}" {% if selected_floor == floor %}selected{% endif %}>
-                                    {% if floor == "Ground" %}Ground Floor{% else %}Floor {{ floor }}{% endif %}
-                                </option>
+                                    {% if selected_floor == "Ground" %}Ground Floor{% else %}Floor {{ selected_floor }}{% endif %}
                                 {% endif %}
+                            {% else %}
+                                Select Floor
+                            {% endif %}
+                        </span>
+                        <span class="arrow"> &#x25BE;</span>
+                    </span>
+                </button>
+                
+                <div id="floor-dropdown-container" class="floor-options hidden">
+                    {% if available_floors %}
+                        <ul>
+                            {% for floor in available_floors %}
+                                <li onclick="selectFloor('{{ floor }}', event)"
+                                    {% if selected_floor == floor %} class="selected" {% endif %}>
+                                    {% if full_building.slug == 'dp' %}
+                                        {% if floor == "Ground" %}Floor 2{% endif %}
+                                        {% if floor == "1" %}Floor 1{% endif %}
+                                        {% if floor == "2" %}Floor 1 (Wings K, G, E){% endif %}
+                                        {% if floor == "3" %}Floor 1 (Wings H, J, D){% endif %}
+                                        {% if floor == "4" %}Floor 1 (Wings A, B, M, F){% endif %}
+                                        {% if floor == "5" %}Floor 2 (Wings K, E){% endif %}
+                                        {% if floor == "6" %}Floor 2 (Wings D, B){% endif %}
+                                        {% if floor == "7" %}Floor 2 (Wing F){% endif %}
+                                    {% else %}
+                                        {% if floor == "Ground" %}Ground Floor{% else %}Floor {{ floor }}{% endif %}
+                                    {% endif %}
+                                </li>
                             {% endfor %}
-                        {% else %}
-                            <option>No floors available</option>
-                        {% endif %}
-                    </select>
+                        </ul>
+                    {% else %}
+                        <ul>
+                            <li>No floors available</li>
+                        </ul>
+                    {% endif %}
                 </div>
             </div>
-        </form>        
+        </form>  
+
         <!-- NEW -->
 
         {% include "buildingFiltersDropdown.html" %}  
@@ -223,10 +280,37 @@
 </script>
 
 <script>
-    function toggleFloorDropdown() {
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropdownToggle = document.querySelector('.fldropdown-toggle');
         const dropdown = document.getElementById("floor-dropdown-container");
-        dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+
+        // Close the dropdown if clicked outside of it
+        document.addEventListener('click', function(e) {
+            if (!dropdown.contains(e.target) && !dropdownToggle.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+    });
+
+    function toggleFloorDropdown()
+    {
+        const dropdown = document.getElementById("floor-dropdown-container");
+        dropdown.classList.toggle('hidden');
     }
+
+    function selectFloor(floor, event)
+    {
+        const hiddenInput = document.getElementById('hidden-floor-input');
+        hiddenInput.value = floor;
+
+        const selectedItem = document.querySelectorAll('.floor-options li');
+        selectedItem.forEach(item => item.classList.remove('selected'));
+        event.target.classList.add('selected');
+
+        const form = document.getElementById('floor-filter-form');
+        form.submit();
+    }
+
 </script>
 
 </html>
